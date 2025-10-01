@@ -1,0 +1,586 @@
+:root {
+  --max-width: 1100px;
+  --container-padding: 1.25rem;
+  /* CIP FARO palette */
+  --bg: #feffff; /* blanc très clair */
+  --cip-blue-dark: #184f97; /* titres principaux, boutons */
+  --cip-turquoise: #7ed5dc; /* sous-titres, éléments décoratifs */
+  --cip-green-pale: #cce1d4; /* fonds de tableaux, info */
+  --muted: #848e97; /* texte secondaire */
+  --accent: var(--cip-blue-dark);
+  --accent-2: var(--cip-turquoise);
+  --radius: 10px;
+  --surface: #f8fafc;
+  --text: #0f172a;
+}
+
+/* Dark theme */
+:root[data-theme="dark"] {
+  --bg: #0b1220;
+  --muted: #94a3b8;
+  --accent: #4f46e5;
+  --accent-2: #7c3aed;
+  --surface: #071023;
+  --text: #e6eef8;
+}
+
+/* Warm/pastel palettes (class-based) */
+:root.theme-warm {
+  --accent: #dc2626; /* warm red */
+  --accent-2: #fb923c;
+  --surface: #fff7ed;
+}
+:root.theme-pastel {
+  --accent: #06b6d4;
+  --accent-2: #60a5fa;
+  --surface: #f0f9ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body,
+#root {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: "Open Sans", "Inter", system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--container-padding);
+}
+
+/* Hero styles */
+.hero {
+  padding: 2.25rem 0;
+  background: linear-gradient(
+    180deg,
+    rgba(126, 213, 220, 0.08) 0%,
+    rgba(24, 79, 151, 0.02) 100%
+  );
+}
+.hero-inner {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: space-between;
+}
+.hero-text {
+  flex: 1 1 60%;
+}
+.hero-visual {
+  flex: 0 0 220px;
+  text-align: right;
+}
+
+@media (max-width: 900px) {
+  .hero-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .hero-visual {
+    text-align: center;
+  }
+}
+
+header {
+  border-bottom: 1px solid #eef2ff;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+/* Ensure header inner container keeps brand / nav / actions on one line */
+header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: nowrap; /* prevent header from wrapping */
+}
+
+.site-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem; /* tighter gap between logo and title */
+}
+.site-logo {
+  height: 48px; /* slightly smaller to save header space */
+  object-fit: contain;
+  display: block;
+}
+.logo-img {
+  display: inline-block;
+  width: 220px;
+  height: 80px;
+  object-fit: contain;
+  aspect-ratio: 220 / 80;
+}
+.site-title {
+  font-weight: 800;
+  font-size: 1rem;
+  line-height: 1;
+  font-family: "Montserrat", "Arial Black", Arial, sans-serif;
+  color: var(--cip-blue-dark);
+}
+
+/* Navigation principale en horizontal sur desktop */
+.main-nav {
+  display: flex;
+  /* force single-line navigation on desktop */
+  flex-wrap: nowrap;
+  gap: 0.45rem; /* reduce horizontal gap for denser layout */
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  /* allow horizontal scrolling if the container is too small */
+  overflow-x: auto;
+}
+
+/* burger button (mobile) */
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  font-size: 1.05rem;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Ensure each top-level nav item keeps its intrinsic width on desktop */
+.main-nav > * {
+  flex: 0 0 auto;
+  width: auto;
+}
+
+/* Les éléments de navigation (liens ou dropdowns) */
+.main-nav > .nav-item,
+.main-nav > a,
+.main-nav > .nav-more {
+  display: flex;
+  align-items: center;
+}
+
+/* Style des liens principaux */
+.main-nav > a,
+.main-nav .nav-link {
+  padding: 0.35rem 0.5rem; /* slightly smaller padding for compact header */
+  text-decoration: none;
+  color: var(--text);
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.98rem;
+}
+
+.main-nav > a:hover,
+.main-nav .nav-link:hover {
+  background-color: var(--cip-green-pale);
+}
+
+/* Dropdowns */
+.main-nav .dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+  flex-direction: column;
+  background: var(--surface);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  min-width: 200px;
+  z-index: 1000;
+  margin-top: 4px;
+  padding: 0.5rem 0;
+  border-radius: 4px;
+}
+
+.main-nav .nav-dropdown.open .dropdown,
+.main-nav .nav-dropdown:hover > .dropdown,
+.main-nav .nav-dropdown:focus-within > .dropdown {
+  display: flex;
+}
+
+.main-nav .dropdown li {
+  list-style: none;
+  width: 100%;
+}
+
+.main-nav .dropdown a {
+  padding: 0.6rem 1rem;
+  display: block;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.main-nav .dropdown a:hover {
+  background-color: #f5f5f5;
+}
+
+/* Keep existing nav-more button visible on narrow screens; hide on desktop when space permits */
+@media (min-width: 992px) {
+  /* on larger desktops the nav should fit, hide the overflow 'more' button */
+  .main-nav .nav-more {
+    display: none;
+  }
+}
+
+/* small screens: stack the navigation vertically under 700px for easy tapping */
+@media (max-width: 700px) {
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  /* hide nav by default on mobile; show when .nav-open is set */
+  nav.main-nav {
+    display: none;
+  }
+  nav.main-nav.nav-open {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    align-items: stretch;
+  }
+
+  /* make each top-level item fill width on mobile for easier tap targets */
+  nav.main-nav.nav-open > * {
+    width: 100%;
+    flex: 0 0 auto;
+  }
+
+  /* dropdowns become stacked content on mobile */
+  nav.main-nav .dropdown {
+    position: static;
+    box-shadow: none;
+    border-top: 1px solid #e2e8f0;
+    min-width: auto;
+    width: 100%;
+    display: none;
+  }
+
+  nav.main-nav .nav-dropdown.open > .dropdown,
+  nav.main-nav .nav-dropdown:focus-within > .dropdown {
+    display: block;
+  }
+
+  /* ensure the overflow 'more' menu is full-width when opened on mobile */
+  .nav-more-menu {
+    position: static;
+    box-shadow: none;
+    width: 100%;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.btn {
+  background: var(--cip-blue-dark);
+  color: var(--bg);
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-family: "Montserrat", "Open Sans", sans-serif;
+}
+
+/* 'More' overflow button and menu */
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.nav-more-btn:focus {
+  outline: 3px solid rgba(24, 79, 151, 0.12);
+  outline-offset: 2px;
+}
+.nav-more-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  background: var(--surface);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  padding: 0.5rem 0;
+  list-style: none;
+  margin: 0;
+  min-width: 220px;
+  display: none;
+  z-index: 50;
+}
+.nav-more-menu.open {
+  display: block;
+}
+.nav-more-menu li a {
+  display: block;
+  padding: 0.45rem 1rem;
+  color: var(--text);
+}
+.nav-more-menu li a:hover {
+  background: var(--cip-green-pale);
+  color: var(--cip-blue-dark);
+}
+
+.btn.secondary {
+  background: transparent;
+  color: var(--cip-blue-dark);
+  border: 1px solid rgba(24, 79, 151, 0.08);
+}
+
+main {
+  min-height: 60vh;
+  padding-top: 1.25rem;
+  padding-bottom: 2.5rem;
+}
+
+footer {
+  border-top: 1px solid #f1f5f9;
+  padding: 1rem 0;
+  background: transparent;
+}
+footer .muted {
+  color: var(--muted);
+}
+
+.icpf-mark {
+  height: 40px; /* slightly smaller to balance footer */
+  object-fit: contain;
+  opacity: 0.95;
+}
+
+.icpf-mark:hover {
+  opacity: 1;
+}
+.icpf-mark,
+.icpf-mark + a {
+  cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  .icpf-mark {
+    height: 32px;
+  }
+}
+.card {
+  background: var(--surface);
+  padding: 1.25rem;
+  border-radius: var(--radius);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+}
+
+@media (max-width: 700px) {
+  .container {
+    padding: 0.75rem;
+  }
+  nav.main-nav {
+    gap: 0.5rem;
+    display: flex; /* show menu as a horizontal scroller on mobile */
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  /* On small screens the 'more' menu should be static (stacked) */
+  .nav-more-menu {
+    position: static;
+    box-shadow: none;
+    display: none; /* default hidden until opened */
+    width: 100%;
+  }
+  .nav-more-menu.open {
+    display: block;
+  }
+  .site-title {
+    font-size: 0.95rem;
+  }
+}
+
+/* we keep a single header navigation; mobile panel removed */
+
+/* Focus styles */
+a:focus,
+button:focus {
+  outline: 3px solid rgba(99, 102, 241, 0.18);
+  outline-offset: 2px;
+}
+
+/* Small helpers */
+.text-center {
+  text-align: center;
+}
+.muted {
+  color: var(--muted);
+}
+.lead {
+  color: var(--muted);
+  font-size: 1.05rem;
+  font-family: "Open Sans", sans-serif;
+}
+
+/* Blog styles */
+.post-teaser h2 a {
+  color: var(--text);
+  text-decoration: none;
+}
+.post-teaser h2 a {
+  font-family: "Montserrat", "Open Sans", sans-serif;
+  color: var(--cip-blue-dark);
+  font-size: 1.15rem;
+}
+.post-teaser .btn.small {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.85rem;
+  border-radius: 6px;
+}
+
+/* Dropdown / submenu under Formations */
+.nav-item {
+  position: relative;
+}
+.nav-link {
+  cursor: pointer;
+  padding: 0.45rem 0.6rem;
+  display: inline-block;
+}
+.nav-dropdown .dropdown {
+  /* hidden by default and positioned under the parent */
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--surface);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  padding: 0.25rem 0;
+  z-index: 1000;
+}
+.nav-dropdown .dropdown li {
+  position: relative;
+}
+.nav-dropdown .dropdown li a {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: var(--text);
+  text-decoration: none;
+}
+.nav-dropdown .dropdown li a:hover {
+  background: var(--cip-green-pale);
+  border-color: rgba(0, 0, 0, 0.06);
+}
+/* show submenu on hover */
+.nav-dropdown:hover > .dropdown,
+.nav-dropdown:focus-within > .dropdown {
+  display: block;
+}
+/* nested submenus (flyouts) */
+.nav-dropdown .dropdown li .dropdown {
+  left: 100%;
+  top: 0;
+  position: absolute;
+  display: none;
+}
+.nav-dropdown .dropdown li:hover > .dropdown {
+  display: block;
+}
+
+@media (max-width: 700px) {
+  /* on mobile the nav is hidden by default; ensure dropdown shows when nav is visible */
+  .nav-dropdown .dropdown {
+    position: static;
+    box-shadow: none;
+  }
+}
+
+/* Additional breakpoint: stack nav vertically and make submenus static below 768px */
+@media (max-width: 768px) {
+  /* stack the main nav as a column */
+  nav.main-nav {
+    flex-direction: column;
+    gap: 0.25rem;
+    align-items: stretch;
+    overflow-x: visible;
+  }
+
+  /* ensure each top-level nav item fills available width for easier tapping */
+  nav.main-nav > * {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+
+  /* make dropdowns behave as regular stacked content */
+  .nav-dropdown .dropdown {
+    position: static;
+    box-shadow: none;
+    border-top: 1px solid #e2e8f0; /* subtle separator */
+    min-width: auto;
+    width: 100%;
+    display: none; /* keep collapsed until opened by JS or focus */
+  }
+
+  /* if dropdown is opened (via .open), show it full width */
+  .nav-dropdown.open > .dropdown,
+  .nav-dropdown:focus-within > .dropdown {
+    display: block;
+  }
+
+  .nav-dropdown .dropdown li a {
+    padding-left: 1rem;
+  }
+}
+
+/* Typography helpers per charte */
+.h1 {
+  font-family: "Montserrat", "Arial Black", sans-serif;
+  color: var(--cip-blue-dark);
+  font-size: 1rem; /* base scaling kept small for web; use rem scaling in components */
+  font-weight: 800;
+}
+.h2 {
+  font-family: "Montserrat", sans-serif;
+  color: var(--cip-turquoise);
+  font-size: 0.95rem;
+  font-style: italic;
+  font-weight: 600;
+}
+.body-text {
+  font-family: "Open Sans", Calibri, Arial, sans-serif;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+/* Accessible focus color using CIP blue with alpha */
+a:focus,
+button:focus {
+  outline: 3px solid rgba(24, 79, 151, 0.18);
+  outline-offset: 2px;
+}
