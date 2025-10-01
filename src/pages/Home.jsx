@@ -16,7 +16,7 @@ export default function Home() {
           </div>
           <div className="hero-visual">
             {/* simple illustrative area — kept small to avoid heavy assets */}
-            <img src="/assets/logo-cip-faro-ei.jpeg" alt="Logo CIP FARO" style={{ maxWidth: 220 }} loading="lazy" width="220" height="80" />
+            <img src="/assets/Marque-cip-icpf.png" alt="Logo CIP FARO" style={{ maxWidth: 220 }} loading="lazy" width="220" height="80" />
           </div>
         </div>
       </section>
