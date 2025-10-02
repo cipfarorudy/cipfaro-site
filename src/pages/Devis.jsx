@@ -83,7 +83,7 @@ Nous restons à votre disposition pour tout complément d'information.
 
 Cordialement,
 CIP FARO Rudy
-secretariat@cipfaro-formation.com`)
+secretariat@cipfaro-formations.com`)
 
     const destinataire = email || ''
     const mailtoURL = `mailto:${destinataire}?subject=${objet}&body=${corps}`
@@ -118,7 +118,7 @@ secretariat@cipfaro-formation.com`)
     doc.text('CIP FARO Rudy — EURO COM KARAIB', marginX, 40)
     doc.setTextColor(0, 0, 0)
     doc.setFontSize(10)
-    doc.text('Chemin Coulée Zebsi, 97139 Les Abymes — secretariat@cipfaro-formation.com', marginX, 58)
+    doc.text('Chemin Coulée Zebsi, 97139 Les Abymes — secretariat@cipfaro-formations.com', marginX, 58)
     doc.text('NDA : 01973171597 — SIRET : 429 168 727 00080', marginX, 72)
     line(84)
 

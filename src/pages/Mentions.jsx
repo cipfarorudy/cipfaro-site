@@ -7,7 +7,7 @@ export default function Mentions() {
         Raison sociale : EURO COM KARAIB (CIP FARO Rudy) — Forme : SARL<br/>
         Siège : [adresse complète]<br/>
         SIREN/RCS : [XXXX XXX XXX] — TVA intracom : [FR..]<br/>
-        Directeur de publication : [Nom Prénom] — secretariat@gipfaro.org
+        Directeur de publication : [Nom Prénom] — secretariat@cipfaro-formations.com
       </p>
       <h3>Hébergeur</h3>
       <p>[Nom de l'hébergeur] — [Adresse] — [Téléphone]</p>

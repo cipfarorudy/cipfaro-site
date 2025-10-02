@@ -14,7 +14,7 @@ import Contact from './pages/Contact.jsx';
 import CookieBanner from './components/CookieBanner.jsx';
 import Nav from './components/Nav.jsx';
 import Header from './components/Header.jsx';
-import logo from './assets/logo-cip-faro-ei.jpeg'
+import logo from './assets/logo-cipfaro.png'
 import icpfMark from './assets/Marque-cip-icpf.png'
 import PageBlanche from './pages/PageBlanche.jsx';
 import Post from './pages/Post.jsx';

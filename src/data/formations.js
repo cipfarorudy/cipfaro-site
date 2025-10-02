@@ -23,13 +23,13 @@ export const formations = [
     // 840h × 7€/h = 5 880€ -> prix groupe ajusté : 4750€
     tarifs:
       "Individuel : 5 550 € TTC (tarif demandeur d'emploi) — Groupe : 4 750 € TTC (par participant)",
-    contacts: "secretariat@cipfaro-formation.com",
+    contacts: "secretariat@cipfaro-formations.com",
     methodes_mobilisees:
       "Apports théoriques, études de cas, jeux de rôle, plateformes numériques",
     modalites_evaluation:
       "Positionnement, évaluations formatives, ECF, épreuves finales",
     accessibilite_psh:
-      "Locaux accessibles ; aménagements possibles. Référent handicap : referent.handicap@cipfaro.org",
+      "Locaux accessibles ; aménagements possibles. Référent handicap : referent.handicap@cipfaro-formations.com",
     debouches:
       "CIP en structure d'insertion, conseiller emploi, chargé d'accompagnement",
     passerelles: "Vers FPA / REMN (à documenter)",
@@ -59,7 +59,7 @@ export const formations = [
     // 910h × 15€/h = 13 650€ | 910h × 9€/h = 8 190€
     tarifs:
       "Individuel : 13 650 € TTC — Groupe : 8 190 € TTC (par participant) — base 15 €/h / 9 €/h",
-    contacts: "secretariat@cipfaro-formation.com",
+    contacts: "secretariat@cipfaro-formations.com",
     methodes_mobilisees:
       "Pédagogie active, scénarisation, outils numériques (LMS, H5P, SCORM)",
     modalites_evaluation:
@@ -95,7 +95,7 @@ export const formations = [
     // 700h × 15€/h = 10 500€ | 700h × 9€/h = 6 300€
     tarifs:
       "Individuel : 10 500 € TTC — Groupe : 6 300 € TTC (par participant) — base 15 €/h / 9 €/h",
-    contacts: "secretariat@cipfaro-formation.com",
+    contacts: "secretariat@cipfaro-formations.com",
     methodes_mobilisees:
       "Ateliers, tutoriels, plateaux techniques, projets collectifs",
     modalites_evaluation:
@@ -129,7 +129,7 @@ export const formations = [
     // 21h × 15€/h = 315€ | 21h × 9€/h = 189€
     tarifs:
       "Individuel : 315 € TTC — Groupe : 189 € TTC (par participant) — base 15 €/h / 9 €/h",
-    contacts: "secretariat@cipfaro-formation.com",
+    contacts: "secretariat@cipfaro-formations.com",
     methodes_mobilisees: "Ateliers, fichiers modèles, études de cas",
     modalites_evaluation: "Quiz, exercices notés, remise d'un fichier final",
     accessibilite_psh: "Supports adaptés possibles, aménagements sur demande",
@@ -161,7 +161,7 @@ export const formations = [
     // 21h × 15€/h = 315€ | 21h × 9€/h = 189€
     tarifs:
       "Individuel : 315 € TTC — Groupe : 189 € TTC (par participant) — base 15 €/h / 9 €/h",
-    contacts: "secretariat@cipfaro-formation.com",
+    contacts: "secretariat@cipfaro-formations.com",
     methodes_mobilisees:
       "Exemples concrets, fiches pas-à-pas, gabarits fournis",
     modalites_evaluation: "Exercices pratiques et QCM final",

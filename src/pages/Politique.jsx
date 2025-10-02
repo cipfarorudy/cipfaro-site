@@ -2,7 +2,7 @@ export default function Politique() {
   return (
     <article className="card">
       <h1>Politique de confidentialité</h1>
-      <p><strong>Responsable de traitement :</strong> EURO COM KARAIB (CIP FARO Rudy), [adresse], secretariat@gipfaro.org</p>
+      <p><strong>Responsable de traitement :</strong> EURO COM KARAIB (CIP FARO Rudy), [adresse], secretariat@cipfaro-formations.com</p>
       <p><strong>Données collectées :</strong> identité, coordonnées, données de candidature/inscription, navigation (si consenties).</p>
       <p><strong>Finalités :</strong> gestion des demandes et inscriptions, suivi pédagogique, obligations légales, statistiques.</p>
       <p><strong>Bases légales :</strong> exécution précontractuelle/contractuelle, obligation légale, consentement (cookies), intérêt légitime (amélioration).</p>

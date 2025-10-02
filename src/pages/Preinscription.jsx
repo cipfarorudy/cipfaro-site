@@ -73,7 +73,7 @@ export default function Preinscription() {
     doc.text('CIP FARO Rudy', marginX, 40)
     doc.setFontSize(10)
     doc.text('Chemin Coulée Zebsi, 97139 Les Abymes — NDA : 01973171597 — SIRET : 42916872700080', marginX, 56)
-    doc.text('secretariat@cipfaro-formation.com', marginX, 72)
+    doc.text('secretariat@cipfaro-formations.com', marginX, 72)
 
     // Titre du formulaire
     doc.setFontSize(14)
@@ -159,7 +159,7 @@ export default function Preinscription() {
       `Nom : ${nom}\nPrénom : ${prenom}\nFormation : ${formation ? formation.titre : ''}\nDate : ${dayjs(dateJour).format('DD/MM/YYYY')}\n\n` +
       `Cordialement,`
     )
-    return `mailto:secretariat@cipfaro-formation.com?subject=${sujet}&body=${corps}`
+    return `mailto:secretariat@cipfaro-formations.com?subject=${sujet}&body=${corps}`
   }, [nom, prenom, formation, dateJour])
 
   // Données tarifs indicatives
@@ -185,7 +185,7 @@ export default function Preinscription() {
     doc.text('CIP FARO Rudy', marginX, 40)
     doc.setFontSize(10)
     doc.text('Chemin Coulée Zebsi, 97139 Les Abymes — NDA : 01973171597 — SIRET : 42916872700080', marginX, 56)
-    doc.text('secretariat@cipfaro-formation.com', marginX, 72)
+    doc.text('secretariat@cipfaro-formations.com', marginX, 72)
     doc.setFontSize(14)
     doc.text('Questionnaire préalable à la formation', marginX, 104)
 
