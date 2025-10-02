@@ -11,7 +11,10 @@ export default function Home() {
             <div style={{ marginTop: '1rem', display: 'flex', gap: '.75rem', flexWrap: 'wrap' }}>
               <a href="/preinscription" className="btn">S'inscrire</a>
               <a href="/devis" className="btn secondary">Demander un devis</a>
-              <a href="/assets/certificat-B04066-2025-03-30.pdf" className="btn" target="_blank" rel="noopener noreferrer" download="certificat-B04066-2025-03-30.pdf">Télécharger le certificat</a>
+              <a href="https://cipfaro.org" className="btn primary" target="_blank" rel="noopener noreferrer" style={{ backgroundColor: '#e67e22', borderColor: '#e67e22' }}>
+                🎓 Accéder à vos cours
+              </a>
+              <a href="/assets/certificat-B04066-2025-03-30.pdf" className="btn secondary" target="_blank" rel="noopener noreferrer" download="certificat-B04066-2025-03-30.pdf">Télécharger le certificat</a>
             </div>
           </div>
           <div className="hero-visual">
@@ -79,6 +82,26 @@ export default function Home() {
               Chaque apprenant bénéficie d'un suivi individualisé 
               pour maximiser ses chances de réussite.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Section Recrutement */}
+      <section style={{ backgroundColor: '#f8f9fa', padding: '3rem 2rem', marginTop: '2rem', borderRadius: '8px' }}>
+        <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto' }}>
+          <h2>Rejoignez notre équipe !</h2>
+          <p className="lead" style={{ marginBottom: '2rem' }}>
+            Vous êtes passionné par la formation et souhaitez transmettre vos compétences ? 
+            Ou vous recherchez un emploi dans nos domaines d'expertise ? 
+            Découvrez nos opportunités et déposez votre candidature.
+          </p>
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link to="/recrutement" className="btn primary">
+              Déposer mon CV
+            </Link>
+            <Link to="/connexion" className="btn secondary">
+              Espace candidat
+            </Link>
           </div>
         </div>
       </section>

@@ -11,6 +11,12 @@ import Mentions from './pages/Mentions.jsx';
 import Politique from './pages/Politique.jsx';
 import CGV from './pages/CGV.jsx';
 import Contact from './pages/Contact.jsx';
+import Recrutement from './pages/Recrutement.jsx';
+import Connexion from './pages/Connexion.jsx';
+import EspaceAdmin from './pages/EspaceAdmin.jsx';
+import EspaceStagiaire from './pages/EspaceStagiaire.jsx';
+import EspaceFormateur from './pages/EspaceFormateur.jsx';
+import Moodle from './pages/Moodle.jsx';
 import CookieBanner from './components/CookieBanner.jsx';
 import Nav from './components/Nav.jsx';
 import Header from './components/Header.jsx';
@@ -65,6 +71,12 @@ export default function App() {
           <Route path="/politique-confidentialite" element={<Politique />} />
           <Route path="/cgv" element={<CGV />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/recrutement" element={<Recrutement />} />
+          <Route path="/connexion" element={<Connexion />} />
+          <Route path="/admin" element={<EspaceAdmin />} />
+          <Route path="/stagiaire" element={<EspaceStagiaire />} />
+          <Route path="/formateur" element={<EspaceFormateur />} />
+          <Route path="/moodle" element={<Moodle />} />
           <Route path="/page-blanche" element={<PageBlanche />} />
           <Route path="/page-blanche/:slug" element={<Post />} />
         </Routes>

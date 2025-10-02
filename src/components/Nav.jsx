@@ -185,6 +185,8 @@ export default function Nav() {
             <li role="none"><Link to="/accessibilite" role="menuitem" tabIndex={-1} onKeyDown={(e)=>onMenuItemKeyDown(e,'pages')} onClick={()=>setOpen(null)}>Accessibilité</Link></li>
             <li role="none"><Link to="/reclamations" role="menuitem" tabIndex={-1} onKeyDown={(e)=>onMenuItemKeyDown(e,'pages')} onClick={()=>setOpen(null)}>Réclamations</Link></li>
             <li role="none"><Link to="/contact" role="menuitem" tabIndex={-1} onKeyDown={(e)=>onMenuItemKeyDown(e,'pages')} onClick={()=>setOpen(null)}>Contact</Link></li>
+            <li role="none"><Link to="/recrutement" role="menuitem" tabIndex={-1} onKeyDown={(e)=>onMenuItemKeyDown(e,'pages')} onClick={()=>setOpen(null)}>Recrutement</Link></li>
+            <li role="none"><Link to="/connexion" role="menuitem" tabIndex={-1} onKeyDown={(e)=>onMenuItemKeyDown(e,'pages')} onClick={()=>setOpen(null)}>Connexion</Link></li>
             <li role="none"><Link to="/mentions-legales" role="menuitem" tabIndex={-1} onKeyDown={(e)=>onMenuItemKeyDown(e,'pages')} onClick={()=>setOpen(null)}>Mentions légales</Link></li>
             <li role="none"><Link to="/politique_confidentialite" role="menuitem" tabIndex={-1} onKeyDown={(e)=>onMenuItemKeyDown(e,'pages')} onClick={()=>setOpen(null)}>Politique</Link></li>
             <li role="none"><Link to="/cgv" role="menuitem" tabIndex={-1} onKeyDown={(e)=>onMenuItemKeyDown(e,'pages')} onClick={()=>setOpen(null)}>CGV</Link></li>
@@ -226,6 +228,7 @@ export default function Nav() {
             Plus ▾
           </button>
           <ul className="dropdown" role="menu">
+            <li role="none"><a href="https://cipfaro.org" target="_blank" rel="noopener noreferrer" role="menuitem" tabIndex={-1} onKeyDown={(e)=>onMenuItemKeyDown(e,'plus')} onClick={()=>setOpen(null)} style={{ color: '#e67e22', fontWeight: 'bold' }}>🎓 Plateforme Moodle</a></li>
             <li role="none"><Link to="/formations" role="menuitem" tabIndex={-1} onKeyDown={(e)=>onMenuItemKeyDown(e,'plus')} onClick={()=>setOpen(null)}>Formations</Link></li>
             <li role="none"><Link to="/financements" role="menuitem" tabIndex={-1} onKeyDown={(e)=>onMenuItemKeyDown(e,'plus')} onClick={()=>setOpen(null)}>Financements</Link></li>
             <li role="none"><Link to="/page-blanche" role="menuitem" tabIndex={-1} onKeyDown={(e)=>onMenuItemKeyDown(e,'plus')} onClick={()=>setOpen(null)}>Blog</Link></li>
