@@ -1,10 +1,26 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function EspaceStagiaire() {
+  const navigate = useNavigate()
   const [userData, setUserData] = useState(null)
   const [formations, setFormations] = useState([])
   const [documents, setDocuments] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  // Vérification de l'authentification
+  useEffect(() => {
+    const userRole = localStorage.getItem('userRole')
+    const userEmail = localStorage.getItem('userEmail')
+    
+    if (!userRole || !userEmail || userRole !== 'stagiaire') {
+      navigate('/connexion')
+      return
+    }
+    
+    setIsAuthenticated(true)
+  }, [navigate])
 
   useEffect(() => {
     // Simulation de chargement des données utilisateur
@@ -134,6 +150,16 @@ export default function EspaceStagiaire() {
       evaluation: '📝'
     }
     return icons[categorie] || '📄'
+  }
+
+  // Vérification de l'authentification avant affichage
+  if (!isAuthenticated) {
+    return (
+      <div className="container" style={{ textAlign: 'center', padding: '4rem 0' }}>
+        <h2>Redirection vers la connexion...</h2>
+        <p>Vérification de vos droits d'accès...</p>
+      </div>
+    )
   }
 
   if (isLoading) {

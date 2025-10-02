@@ -1,11 +1,27 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function EspaceFormateur() {
+  const navigate = useNavigate()
   const [userData, setUserData] = useState(null)
   const [groupes, setGroupes] = useState([])
   const [stagiaires, setStagiaires] = useState([])
   const [selectedGroupe, setSelectedGroupe] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  // Vérification de l'authentification
+  useEffect(() => {
+    const userRole = localStorage.getItem('userRole')
+    const userEmail = localStorage.getItem('userEmail')
+    
+    if (!userRole || !userEmail || userRole !== 'formateur') {
+      navigate('/connexion')
+      return
+    }
+    
+    setIsAuthenticated(true)
+  }, [navigate])
 
   useEffect(() => {
     // Simulation de chargement des données
@@ -147,6 +163,16 @@ export default function EspaceFormateur() {
   const stagiairesGroupe = selectedGroupe 
     ? stagiaires.filter(s => s.groupeId === selectedGroupe.id)
     : []
+
+  // Vérification de l'authentification avant affichage
+  if (!isAuthenticated) {
+    return (
+      <div className="container" style={{ textAlign: 'center', padding: '4rem 0' }}>
+        <h2>Redirection vers la connexion...</h2>
+        <p>Vérification de vos droits d'accès...</p>
+      </div>
+    )
+  }
 
   if (isLoading) {
     return (

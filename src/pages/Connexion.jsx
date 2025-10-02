@@ -1,6 +1,8 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function Connexion() {
+  const navigate = useNavigate()
   const [loginData, setLoginData] = useState({
     email: '',
     password: '',
@@ -49,16 +51,16 @@ export default function Connexion() {
         // Redirection selon le rôle
         switch (account.role) {
           case 'admin':
-            window.location.href = '/admin'
+            navigate('/admin')
             break
           case 'formateur':
-            window.location.href = '/formateur'
+            navigate('/formateur')
             break
           case 'stagiaire':
-            window.location.href = '/stagiaire'
+            navigate('/stagiaire')
             break
           default:
-            window.location.href = '/'
+            navigate('/')
         }
       } else {
         setMessage('Email ou mot de passe incorrect')

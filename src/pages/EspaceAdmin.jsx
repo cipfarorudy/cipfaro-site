@@ -1,12 +1,29 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function EspaceAdmin() {
+  const navigate = useNavigate()
   const [cvList, setCvList] = useState([])
   const [filteredCVs, setFilteredCVs] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const [filterStatus, setFilterStatus] = useState('tous')
   const [selectedCV, setSelectedCV] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  // Vérification de l'authentification
+  useEffect(() => {
+    const userRole = localStorage.getItem('userRole')
+    const userEmail = localStorage.getItem('userEmail')
+    
+    if (!userRole || !userEmail || userRole !== 'admin') {
+      // Redirection vers la page de connexion si pas admin
+      navigate('/connexion')
+      return
+    }
+    
+    setIsAuthenticated(true)
+  }, [navigate])
 
   // Simulation des données CV (à remplacer par une vraie API)
   useEffect(() => {
@@ -111,6 +128,16 @@ export default function EspaceAdmin() {
     localStorage.removeItem('userRole')
     localStorage.removeItem('userEmail')
     window.location.href = '/'
+  }
+
+  // Vérification de l'authentification avant affichage
+  if (!isAuthenticated) {
+    return (
+      <div className="container" style={{ textAlign: 'center', padding: '4rem 0' }}>
+        <h2>Redirection vers la connexion...</h2>
+        <p>Vérification de vos droits d'accès...</p>
+      </div>
+    )
   }
 
   if (isLoading) {
