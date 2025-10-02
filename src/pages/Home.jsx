@@ -15,8 +15,8 @@ export default function Home() {
             </div>
           </div>
           <div className="hero-visual">
-            {/* simple illustrative area — kept small to avoid heavy assets */}
-            <img src="/assets/qualiopi-actions-formation.JPG" alt="Certification Qualiopi" style={{ maxWidth: 220 }} loading="lazy" width="220" height="80" />
+            {/* Logo Qualiopi selon recommandations certificat */}
+            <img src="/assets/qualiopi-actions-formation.JPG" alt="Certification Qualiopi" style={{ maxWidth: 320 }} loading="lazy" width="320" height="160" />
           </div>
         </div>
       </section>

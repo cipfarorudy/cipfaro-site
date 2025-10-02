@@ -15,7 +15,7 @@ import CookieBanner from './components/CookieBanner.jsx';
 import Nav from './components/Nav.jsx';
 import Header from './components/Header.jsx';
 import logo from './assets/logo-cipfaro.png'
-import icpfMark from './assets/Qualiopi Actions de formation.JPG'
+import icpfMark from './assets/logo-cipfaro.png'
 import PageBlanche from './pages/PageBlanche.jsx';
 import Post from './pages/Post.jsx';
 import { Routes, Route, Link } from 'react-router-dom'
@@ -74,8 +74,8 @@ export default function App() {
         <div className="container" style={{display:'flex', gap:'1rem', flexWrap:'wrap', justifyContent:'space-between', alignItems:'center'}}>
           <div style={{display:'flex', gap:'.8rem', alignItems:'center'}}>
             <small className="muted">© {new Date().getFullYear()} CIP FARO Rudy</small>
-            <a href="https://www.qualiopi.gouv.fr" target="_blank" rel="noopener noreferrer" title="Certification Qualiopi">
-              <img src={icpfMark} alt="Certification Qualiopi" className="icpf-mark" loading="lazy" width="120" height="40" />
+            <a href="/assets/certificat-B04066-2025-03-30.pdf" target="_blank" rel="noopener noreferrer" title="Télécharger le certificat CIP FARO" download="certificat-B04066-2025-03-30.pdf">
+              <img src={icpfMark} alt="Logo CIP FARO" className="icpf-mark" loading="lazy" width="120" height="40" />
             </a>
           </div>
           <nav style={{display:'flex', gap:'.8rem', flexWrap:'wrap'}}>
