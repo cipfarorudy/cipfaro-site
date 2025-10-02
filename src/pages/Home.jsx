@@ -11,12 +11,12 @@ export default function Home() {
             <div style={{ marginTop: '1rem', display: 'flex', gap: '.75rem', flexWrap: 'wrap' }}>
               <a href="/preinscription" className="btn">S'inscrire</a>
               <a href="/devis" className="btn secondary">Demander un devis</a>
-              <a href="/certificat-B04066-2025-03-30.pdf" className="btn" target="_blank" rel="noopener noreferrer">Télécharger le certificat</a>
+              <a href="/assets/certificat-B04066-2025-03-30.pdf" className="btn" target="_blank" rel="noopener noreferrer" download="certificat-B04066-2025-03-30.pdf">Télécharger le certificat</a>
             </div>
           </div>
           <div className="hero-visual">
-            {/* Logo Qualiopi selon recommandations certificat */}
-            <img src="/assets/qualiopi-actions-formation.JPG" alt="Certification Qualiopi" style={{ maxWidth: 320 }} loading="lazy" width="320" height="160" />
+            {/* Certificat Qualiopi Actions de formation */}
+            <img src="/assets/Qualiopi Actions de formation.JPG" alt="Certificat Qualiopi Actions de formation" style={{ maxWidth: 320 }} loading="lazy" width="320" height="160" />
           </div>
         </div>
       </section>

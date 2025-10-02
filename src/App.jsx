@@ -83,7 +83,7 @@ export default function App() {
             <Link to="/politique-confidentialite">Confidentialité</Link>
             <Link to="/cgv">CGV</Link>
             <Link to="/accessibilite">Accessibilité</Link>
-            <a href="/certificat-B04066-2025-03-30.pdf" download="certificat-B04066-2025-03-30.pdf" target="_blank" rel="noopener noreferrer" aria-label="Télécharger le certificat ICPF">Certificat</a>
+            <a href="/assets/certificat-B04066-2025-03-30.pdf" download="certificat-B04066-2025-03-30.pdf" target="_blank" rel="noopener noreferrer" aria-label="Télécharger le certificat CIP FARO">Certificat</a>
           </nav>
         </div>
       </footer>
