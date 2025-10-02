@@ -317,10 +317,41 @@ export default function Recrutement() {
                     }}
                   >
                     <option value="">Choisir une formation</option>
-                    <option value="dev-web">Développeur Web et Web Mobile</option>
-                    <option value="marketing-digital">Marketing Digital</option>
-                    <option value="comptabilite">Comptabilité</option>
-                    <option value="autre">Autre (préciser en commentaire)</option>
+                    <optgroup label="🎓 Titres Professionnels">
+                      <option value="tp-cip">Conseil en insertion professionnelle (CIP)</option>
+                      <option value="tp-fpa">Formateur professionnel d'adultes (FPA)</option>
+                      <option value="tp-remn">Responsable d'Espace de Médiation Numérique</option>
+                      <option value="mediation-ia">Conseiller en médiation digitale et de l'IA</option>
+                    </optgroup>
+                    <optgroup label="💼 Entrepreneuriat & Gestion">
+                      <option value="projet-entrepreneurial">Concevoir et développer un projet entrepreneurial</option>
+                      <option value="chef-entreprise">Je deviens chef d'entreprise</option>
+                      <option value="certification-tpe-1">Certification Entrepreneur de la TPE (version 1)</option>
+                      <option value="certification-tpe-2">Certification Entrepreneur de la TPE (version 2)</option>
+                      <option value="formation-createurs">Formation créateurs et repreneurs d'entreprises</option>
+                    </optgroup>
+                    <optgroup label="💻 Bureautique & Informatique">
+                      <option value="initiation-bureautique">Initiation à la bureautique</option>
+                      <option value="excel-createurs">Excel pour Créateurs d'Entreprise</option>
+                      <option value="certification-office">Préparation certification Microsoft Office</option>
+                      <option value="microsoft-teams">Maîtrisez Microsoft Teams</option>
+                    </optgroup>
+                    <optgroup label="🤖 Intelligence Artificielle & Digital">
+                      <option value="decouverte-ia">Découverte de l'IA : informatique et algorithmes</option>
+                      <option value="marketing-digital">Marketing Digital</option>
+                      <option value="digitalisation-entreprise">Digitalisation d'entreprise</option>
+                    </optgroup>
+                    <optgroup label="🎬 Audiovisuel & Créatif">
+                      <option value="image-son">Techniques de l'Image et du Son</option>
+                    </optgroup>
+                    <optgroup label="👥 Insertion & Accompagnement">
+                      <option value="facilitateur-numerique">Facilitateur Numérique Insertion Professionnelle</option>
+                      <option value="cohesion-equipes">Cohésion d'équipes</option>
+                    </optgroup>
+                    <optgroup label="🚑 Sécurité">
+                      <option value="sst">Sauveteur Secouriste du Travail (SST)</option>
+                    </optgroup>
+                    <option value="autre">Autre formation (préciser en commentaire)</option>
                   </select>
                 </div>
 
