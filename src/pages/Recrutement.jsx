@@ -9,7 +9,15 @@ export default function Recrutement() {
     posteRecherche: '',
     experience: '',
     disponibilite: '',
-    cv: null
+    cv: null,
+    // Questions de positionnement
+    niveauEtudes: '',
+    competencesInformatiques: '',
+    motivations: '',
+    projetsAnterieurs: '',
+    objectifsProfessionnels: '',
+    contraintes: '',
+    formationSouhaitee: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [message, setMessage] = useState('')
@@ -274,6 +282,190 @@ export default function Recrutement() {
                 <option value="2-mois">Sous 2 mois</option>
                 <option value="3-mois">Sous 3 mois</option>
               </select>
+            </div>
+
+            {/* Questionnaire de positionnement */}
+            <div style={{ 
+              backgroundColor: '#f8f9fa', 
+              padding: '1.5rem', 
+              borderRadius: '8px', 
+              margin: '2rem 0',
+              border: '1px solid #e9ecef'
+            }}>
+              <h3 style={{ marginTop: 0, color: '#495057' }}>📋 Questionnaire de positionnement</h3>
+              <p style={{ fontSize: '0.9rem', color: '#6c757d', marginBottom: '1.5rem' }}>
+                Ces informations nous aideront à évaluer votre profil et à adapter la formation à vos besoins.
+              </p>
+
+              <div style={{ display: 'grid', gap: '1.5rem' }}>
+                <div>
+                  <label htmlFor="formationSouhaitee" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                    Formation souhaitée *
+                  </label>
+                  <select
+                    id="formationSouhaitee"
+                    name="formationSouhaitee"
+                    value={formData.formationSouhaitee}
+                    onChange={handleInputChange}
+                    required
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '1rem'
+                    }}
+                  >
+                    <option value="">Choisir une formation</option>
+                    <option value="dev-web">Développeur Web et Web Mobile</option>
+                    <option value="marketing-digital">Marketing Digital</option>
+                    <option value="comptabilite">Comptabilité</option>
+                    <option value="autre">Autre (préciser en commentaire)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label htmlFor="niveauEtudes" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                    Niveau d'études *
+                  </label>
+                  <select
+                    id="niveauEtudes"
+                    name="niveauEtudes"
+                    value={formData.niveauEtudes}
+                    onChange={handleInputChange}
+                    required
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '1rem'
+                    }}
+                  >
+                    <option value="">Sélectionner</option>
+                    <option value="sans-diplome">Sans diplôme</option>
+                    <option value="cap-bep">CAP/BEP</option>
+                    <option value="bac">Baccalauréat</option>
+                    <option value="bac+2">Bac+2 (BTS, DUT, etc.)</option>
+                    <option value="bac+3">Bac+3 (Licence, etc.)</option>
+                    <option value="bac+5">Bac+5 et plus (Master, Ingénieur, etc.)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label htmlFor="competencesInformatiques" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                    Compétences informatiques
+                  </label>
+                  <select
+                    id="competencesInformatiques"
+                    name="competencesInformatiques"
+                    value={formData.competencesInformatiques}
+                    onChange={handleInputChange}
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '1rem'
+                    }}
+                  >
+                    <option value="">Évaluer votre niveau</option>
+                    <option value="debutant">Débutant (utilisation basique)</option>
+                    <option value="intermediaire">Intermédiaire (bureautique, internet)</option>
+                    <option value="avance">Avancé (programmation, logiciels spécialisés)</option>
+                    <option value="expert">Expert (développement, administration système)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label htmlFor="motivations" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                    Motivations pour cette formation *
+                  </label>
+                  <textarea
+                    id="motivations"
+                    name="motivations"
+                    value={formData.motivations}
+                    onChange={handleInputChange}
+                    required
+                    rows={3}
+                    placeholder="Décrivez pourquoi vous souhaitez suivre cette formation..."
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '1rem',
+                      resize: 'vertical'
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="objectifsProfessionnels" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                    Objectifs professionnels
+                  </label>
+                  <textarea
+                    id="objectifsProfessionnels"
+                    name="objectifsProfessionnels"
+                    value={formData.objectifsProfessionnels}
+                    onChange={handleInputChange}
+                    rows={3}
+                    placeholder="Quels sont vos objectifs après cette formation ? (emploi recherché, évolution de carrière...)"
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '1rem',
+                      resize: 'vertical'
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="projetsAnterieurs" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                    Projets ou expériences en lien avec la formation
+                  </label>
+                  <textarea
+                    id="projetsAnterieurs"
+                    name="projetsAnterieurs"
+                    value={formData.projetsAnterieurs}
+                    onChange={handleInputChange}
+                    rows={3}
+                    placeholder="Décrivez vos projets, expériences ou réalisations en lien avec le domaine..."
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '1rem',
+                      resize: 'vertical'
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="contraintes" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                    Contraintes particulières
+                  </label>
+                  <textarea
+                    id="contraintes"
+                    name="contraintes"
+                    value={formData.contraintes}
+                    onChange={handleInputChange}
+                    rows={2}
+                    placeholder="Contraintes de planning, familiales, géographiques, accessibilité..."
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '1rem',
+                      resize: 'vertical'
+                    }}
+                  />
+                </div>
+              </div>
             </div>
 
             <div>
