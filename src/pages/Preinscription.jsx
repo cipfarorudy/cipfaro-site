@@ -4,12 +4,18 @@ import { useSearchParams, Link } from 'react-router-dom'
 // lazy-load jsPDF et jspdf-autotable uniquement quand nécessaire
 import dayjs from 'dayjs'
 import { formations } from '../data/formations'
+import { envoyerEmailInscription, initEmailService } from '../utils/emailService'
 
 const formatEuro = (n) => new Intl.NumberFormat('fr-FR', { style:'currency', currency:'EUR' }).format(n ?? 0)
 
 export default function Preinscription() {
   const [sp] = useSearchParams()
   const slugParam = sp.get('slug') || ''
+  
+  // Initialiser le service email au chargement
+  useEffect(() => {
+    initEmailService()
+  }, [])
 
   // ————— Identité / entête (doc : "Nom, Prénom, Intitulé, Le : …") —————
   const [nom, setNom] = useState('')
@@ -253,6 +259,8 @@ export default function Preinscription() {
     // UX: disable while sending and show success/error
     try {
       setIsSending(true)
+      
+      // 1. Envoi au serveur (existant)
       const API_BASE = import.meta.env.VITE_API_BASE || 'https://api.cipfaro-formation.com'
       const resp = await fetch(`${API_BASE.replace(/\/$/, '')}/api/preinscription`, { method: 'POST', body: form })
       if (!resp.ok) {
@@ -261,7 +269,32 @@ export default function Preinscription() {
         setIsSending(false)
         return
       }
-      setSuccessMessage('Préinscription envoyée au secrétariat ✅')
+      
+      // 2. Envoi de l'email de confirmation
+      const inscriptionData = {
+        prenom,
+        nom,
+        email: '', // À ajouter dans le formulaire si pas déjà présent
+        formation: formation?.titre || '',
+        duree: formation?.duree || '',
+        modalites: formation?.modalites || '',
+        dateDebut: 'À définir selon planning',
+        financement: 'CPF, Pôle Emploi, financement personnel'
+      }
+      
+      // Tentative d'envoi email (ne doit pas bloquer si ça échoue)
+      try {
+        const emailResult = await envoyerEmailInscription(inscriptionData)
+        if (emailResult.success) {
+          setSuccessMessage('Préinscription envoyée au secrétariat ✅ Un email de confirmation vous a été envoyé.')
+        } else {
+          setSuccessMessage('Préinscription envoyée au secrétariat ✅')
+        }
+      } catch (emailError) {
+        console.log('Email de confirmation non envoyé:', emailError)
+        setSuccessMessage('Préinscription envoyée au secrétariat ✅')
+      }
+      
       setErrorMessage('')
     } catch (err) {
       console.error('Erreur envoi serveur', err)

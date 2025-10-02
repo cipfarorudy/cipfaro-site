@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom'
+import { useSEO, seoConfig } from '../utils/seo'
+import { trackMoodleAccess } from '../utils/analytics'
 
 export default function Home() {
+  // SEO optimisé pour la page d'accueil
+  useSEO(seoConfig.home)
   return (
     <div>
       <section className="hero">
@@ -13,7 +17,14 @@ export default function Home() {
             <div style={{ marginTop: '1rem', display: 'flex', gap: '.75rem', flexWrap: 'wrap' }}>
               <Link to="/preinscription" className="btn">S'inscrire</Link>
               <Link to="/devis" className="btn secondary">Demander un devis</Link>
-              <a href="https://cipfaro.org" className="btn primary" target="_blank" rel="noopener noreferrer" style={{ backgroundColor: '#e67e22', borderColor: '#e67e22' }}>
+              <a 
+                href="https://cipfaro.org" 
+                className="btn primary" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                style={{ backgroundColor: '#e67e22', borderColor: '#e67e22' }}
+                onClick={() => trackMoodleAccess()}
+              >
                 🎓 Accéder à vos cours
               </a>
               <a href="/assets/certificat-B04066-2025-03-30.pdf" className="btn secondary" target="_blank" rel="noopener noreferrer" download="certificat-B04066-2025-03-30.pdf">Télécharger le certificat</a>

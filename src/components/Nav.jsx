@@ -229,6 +229,7 @@ export default function Nav() {
           </button>
           <ul className="dropdown" role="menu">
             <li role="none"><a href="https://cipfaro.org" target="_blank" rel="noopener noreferrer" role="menuitem" tabIndex={-1} onKeyDown={(e)=>onMenuItemKeyDown(e,'plus')} onClick={()=>setOpen(null)} style={{ color: '#e67e22', fontWeight: 'bold' }}>🎓 Plateforme Moodle</a></li>
+            <li role="none"><Link to="/dashboard" role="menuitem" tabIndex={-1} onKeyDown={(e)=>onMenuItemKeyDown(e,'plus')} onClick={()=>setOpen(null)} style={{ color: '#3b82f6', fontWeight: 'bold' }}>📊 Tableau de bord</Link></li>
             <li role="none"><Link to="/formations" role="menuitem" tabIndex={-1} onKeyDown={(e)=>onMenuItemKeyDown(e,'plus')} onClick={()=>setOpen(null)}>Formations</Link></li>
             <li role="none"><Link to="/financements" role="menuitem" tabIndex={-1} onKeyDown={(e)=>onMenuItemKeyDown(e,'plus')} onClick={()=>setOpen(null)}>Financements</Link></li>
             <li role="none"><Link to="/page-blanche" role="menuitem" tabIndex={-1} onKeyDown={(e)=>onMenuItemKeyDown(e,'plus')} onClick={()=>setOpen(null)}>Blog</Link></li>

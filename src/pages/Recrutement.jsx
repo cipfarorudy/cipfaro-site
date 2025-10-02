@@ -1,6 +1,16 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSEO, seoConfig } from '../utils/seo'
+import { trackRecrutementSubmit } from '../utils/analytics'
+import { envoyerEmailCandidature, envoyerEmailOffre, initEmailService } from '../utils/emailService'
 
 export default function Recrutement() {
+  // SEO optimisé pour la page recrutement
+  useSEO(seoConfig.recrutement)
+  
+  // Initialiser le service email au chargement du composant
+  useEffect(() => {
+    initEmailService()
+  }, [])
   const [profileType, setProfileType] = useState('') // 'entreprise' ou 'candidat'
   const [formData, setFormData] = useState({
     // Champs communs
@@ -108,13 +118,24 @@ export default function Recrutement() {
       // })
       
       // Simulation d'attente
-      await new Promise(resolve => setTimeout(resolve, 2000))
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      // Envoi de l'email de confirmation selon le type
+      let emailResult
+      if (profileType === 'entreprise') {
+        emailResult = await envoyerEmailOffre(formData)
+      } else {
+        emailResult = await envoyerEmailCandidature(formData)
+      }
       
       const successMessage = profileType === 'entreprise' 
-        ? 'Votre offre d\'emploi a été publiée avec succès ! Nous mettrons en relation les candidats correspondants sous 48h.'
-        : 'Votre candidature a été envoyée avec succès ! Nous vous mettrons en relation avec les entreprises correspondantes sous 48h.'
+        ? `Votre offre d'emploi a été publiée avec succès ! ${emailResult.success ? 'Un email de confirmation vous a été envoyé.' : ''} Nous mettrons en relation les candidats correspondants sous 48h.`
+        : `Votre candidature a été envoyée avec succès ! ${emailResult.success ? 'Un email de confirmation vous a été envoyé.' : ''} Nous vous mettrons en relation avec les entreprises correspondantes sous 48h.`
       
       setMessage(successMessage)
+      
+      // Tracker l'événement de soumission
+      trackRecrutementSubmit(profileType)
       
       // Reset du formulaire
       setFormData({

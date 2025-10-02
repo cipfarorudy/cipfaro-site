@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom'
 import { formations } from '../data/formations'
+import { useSEO, seoConfig } from '../utils/seo'
+import { trackFormationView } from '../utils/analytics'
 
 export default function Formations() {
+  // SEO optimisé pour la page formations
+  useSEO(seoConfig.formations)
   return (
     <>
       <h1>Nos formations</h1>

@@ -3,6 +3,8 @@ import Formations from './pages/Formations.jsx';
 import Formation from './pages/Formation.jsx';
 import Devis from './pages/Devis.jsx';
 import Preinscription from './pages/Preinscription.jsx';
+import Sitemap from './pages/Sitemap.jsx';
+import { useGoogleAnalytics } from './utils/analytics';
 import Financements from './pages/Financements.jsx';
 import Indicateurs from './pages/Indicateurs.jsx';
 import Accessibilite from './pages/Accessibilite.jsx';
@@ -13,6 +15,7 @@ import CGV from './pages/CGV.jsx';
 import Contact from './pages/Contact.jsx';
 import Recrutement from './pages/Recrutement.jsx';
 import Connexion from './pages/Connexion.jsx';
+import Dashboard from './pages/Dashboard.jsx';
 import EspaceAdmin from './pages/EspaceAdmin.jsx';
 import EspaceStagiaire from './pages/EspaceStagiaire.jsx';
 import EspaceFormateur from './pages/EspaceFormateur.jsx';
@@ -31,6 +34,9 @@ export default function App() {
   const [theme, setTheme] = useState(()=>{
     try{ return localStorage.getItem('theme') || 'light' }catch{ return 'light' }
   })
+
+  // Initialiser Google Analytics
+  useGoogleAnalytics()
 
   useEffect(()=>{
     document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light')
@@ -77,6 +83,8 @@ export default function App() {
           <Route path="/stagiaire" element={<EspaceStagiaire />} />
           <Route path="/formateur" element={<EspaceFormateur />} />
           <Route path="/moodle" element={<Moodle />} />
+          <Route path="/sitemap" element={<Sitemap />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/page-blanche" element={<PageBlanche />} />
           <Route path="/page-blanche/:slug" element={<Post />} />
         </Routes>

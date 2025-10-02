@@ -12,6 +12,7 @@
     "make-webp": "node scripts/convert-to-webp.js"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "dayjs": "^1.11.18",
     "express": "^4.21.2",
     "jspdf": "^3.0.3",
