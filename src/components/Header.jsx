@@ -30,8 +30,8 @@ export default function Header({ theme, setTheme, logoSrc }) {
     <header className="site-header">
       <a className="logo" href="/" aria-label="Accueil CIP FARO">
         <picture>
-          <source srcSet="/assets/logo-cipfaro.png" type="image/png" />
-          <img src={logoSrc || '/assets/logo-cipfaro.png'} alt="CIP FARO" className="logo-img" width="220" height="80" />
+          <source srcSet="/assets/qualiopi-actions-formation.JPG" type="image/jpeg" />
+          <img src={logoSrc || '/assets/qualiopi-actions-formation.JPG'} alt="CIP FARO" className="logo-img" width="260" height="120" />
         </picture>
         <span className="logo-text">CIP FARO</span>
       </a>
