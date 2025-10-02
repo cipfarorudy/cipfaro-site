@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 export default function Home() {
   return (
     <div>
@@ -9,8 +11,8 @@ export default function Home() {
               Centre de formation spécialisé dans l'insertion professionnelle et l'accompagnement des publics. Formations certifiantes, accompagnement individualisé et conseils pour le financement.
             </p>
             <div style={{ marginTop: '1rem', display: 'flex', gap: '.75rem', flexWrap: 'wrap' }}>
-              <a href="/preinscription" className="btn">S'inscrire</a>
-              <a href="/devis" className="btn secondary">Demander un devis</a>
+              <Link to="/preinscription" className="btn">S'inscrire</Link>
+              <Link to="/devis" className="btn secondary">Demander un devis</Link>
               <a href="https://cipfaro.org" className="btn primary" target="_blank" rel="noopener noreferrer" style={{ backgroundColor: '#e67e22', borderColor: '#e67e22' }}>
                 🎓 Accéder à vos cours
               </a>
@@ -31,9 +33,9 @@ export default function Home() {
             Découvrez nos formations reconnues par l'État et inscrites au RNCP, 
             conçues pour répondre aux besoins du marché de l'emploi.
           </p>
-          <a href="/formations" className="btn primary">
+          <Link to="/formations" className="btn primary">
             Voir nos formations
-          </a>
+          </Link>
         </div>
 
         <div className="card">
@@ -42,9 +44,9 @@ export default function Home() {
             Bénéficiez d'un accompagnement personnalisé tout au long de votre parcours 
             de formation et d'insertion professionnelle.
           </p>
-          <a href="/contact" className="btn">
+          <Link to="/contact" className="btn">
             Nous contacter
-          </a>
+          </Link>
         </div>
 
         <div className="card">
@@ -53,9 +55,9 @@ export default function Home() {
             Explorez les différentes solutions de financement disponibles 
             pour votre projet de formation professionnelle.
           </p>
-          <a href="/financements" className="btn">
+          <Link to="/financements" className="btn">
             Solutions de financement
-          </a>
+          </Link>
         </div>
       </div>
 
