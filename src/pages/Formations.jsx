@@ -34,12 +34,45 @@ export default function Formations() {
         </a>
       </div>
 
+      {/* Lien vers France Travail */}
+      <div style={{ 
+        backgroundColor: '#f0f8ff', 
+        padding: '1.5rem', 
+        borderRadius: '8px', 
+        border: '1px solid #bee3f8',
+        marginBottom: '2rem',
+        textAlign: 'center'
+      }}>
+        <h2 style={{ margin: '0 0 0.5rem 0', color: '#1a365d' }}>🔍 Formations financées</h2>
+        <p style={{ margin: '0 0 1rem 0', color: '#2d3748' }}>
+          Découvrez nos formations disponibles sur France Travail avec financement possible
+        </p>
+        <a 
+          href="https://candidat.francetravail.fr/formations/recherche?filtreEstFormationEnCoursOuAVenir=formEnCours&filtreEstFormationTerminee=formEnCours&ou=COMMUNE-97101&quoi=cip+faro&range=0-9&tri=0"
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="btn"
+          style={{ 
+            backgroundColor: '#1a365d', 
+            color: 'white',
+            border: '2px solid #1a365d'
+          }}
+        >
+          📋 Voir nos formations sur France Travail
+        </a>
+      </div>
+
       <div className="grid" style={{marginTop:'1rem'}}>
         {formations.map(f => (
           <article key={f.slug} className="card">
             <h2>{f.titre}</h2>
             <p><strong>Durée :</strong> {f.duree}</p>
             <p><strong>Modalités :</strong> {f.modalites}</p>
+            {f.code_officiel && (
+              <p style={{ fontSize: '0.9rem', color: '#666', fontStyle: 'italic' }}>
+                <strong>Code :</strong> {f.code_officiel}
+              </p>
+            )}
             <Link className="btn" to={`/formations/${f.slug}`}>Consulter</Link>
           </article>
         ))}
