@@ -48,10 +48,10 @@ export default function Contact() {
           <h2>✉️ Email</h2>
           <p>
             <strong>Contact général :</strong><br />
-            secretariat@cipfaro.org
+            secretariat@cipfaro-formations.com
             <br /><br />
             <strong>Référent handicap :</strong><br />
-            referent.handicap@cipfaro.org
+            referent.handicap@cipfaro-formations.com
           </p>
         </div>
 
