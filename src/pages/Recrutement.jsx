@@ -1,23 +1,39 @@
 import { useState } from 'react'
 
 export default function Recrutement() {
+  const [profileType, setProfileType] = useState('') // 'entreprise' ou 'candidat'
   const [formData, setFormData] = useState({
+    // Champs communs
     prenom: '',
     nom: '',
     email: '',
     telephone: '',
+    
+    // Champs candidat
     posteRecherche: '',
     experience: '',
     disponibilite: '',
     cv: null,
-    // Questions de positionnement
     niveauEtudes: '',
     competencesInformatiques: '',
     motivations: '',
     projetsAnterieurs: '',
     objectifsProfessionnels: '',
     contraintes: '',
-    formationSouhaitee: ''
+    formationSouhaitee: '',
+    
+    // Champs entreprise
+    nomEntreprise: '',
+    secteurActivite: '',
+    tailleEntreprise: '',
+    postePropose: '',
+    competencesRecherchees: '',
+    typeContrat: '',
+    localisationPoste: '',
+    salairePropose: '',
+    descriptionPoste: '',
+    profilRecherche: '',
+    formationsCiblees: []
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [message, setMessage] = useState('')
@@ -57,11 +73,31 @@ export default function Recrutement() {
     setIsSubmitting(true)
     setMessage('')
 
-    // Validation
-    if (!formData.prenom || !formData.nom || !formData.email || !formData.cv) {
-      setMessage('Veuillez remplir tous les champs obligatoires et joindre votre CV')
+    // Validation selon le type de profil
+    if (!formData.prenom || !formData.nom || !formData.email || !formData.telephone) {
+      setMessage('Veuillez remplir tous les champs obligatoires')
       setIsSubmitting(false)
       return
+    }
+
+    if (profileType === 'entreprise') {
+      if (!formData.nomEntreprise || !formData.secteurActivite || !formData.tailleEntreprise || 
+          !formData.postePropose || !formData.typeContrat || !formData.localisationPoste ||
+          !formData.competencesRecherchees || !formData.descriptionPoste || 
+          formData.formationsCiblees.length === 0) {
+        setMessage('Veuillez remplir tous les champs obligatoires pour l\'entreprise')
+        setIsSubmitting(false)
+        return
+      }
+    }
+
+    if (profileType === 'candidat') {
+      if (!formData.formationSouhaitee || !formData.posteRecherche || 
+          !formData.disponibilite || !formData.motivations || !formData.cv) {
+        setMessage('Veuillez remplir tous les champs obligatoires et joindre votre CV')
+        setIsSubmitting(false)
+        return
+      }
     }
 
     try {
@@ -74,7 +110,13 @@ export default function Recrutement() {
       // Simulation d'attente
       await new Promise(resolve => setTimeout(resolve, 2000))
       
-      setMessage('Votre candidature a été envoyée avec succès ! Nous vous recontacterons sous 48h.')
+      const successMessage = profileType === 'entreprise' 
+        ? 'Votre offre d\'emploi a été publiée avec succès ! Nous mettrons en relation les candidats correspondants sous 48h.'
+        : 'Votre candidature a été envoyée avec succès ! Nous vous mettrons en relation avec les entreprises correspondantes sous 48h.'
+      
+      setMessage(successMessage)
+      
+      // Reset du formulaire
       setFormData({
         prenom: '',
         nom: '',
@@ -83,14 +125,32 @@ export default function Recrutement() {
         posteRecherche: '',
         experience: '',
         disponibilite: '',
-        cv: null
+        cv: null,
+        niveauEtudes: '',
+        competencesInformatiques: '',
+        motivations: '',
+        projetsAnterieurs: '',
+        objectifsProfessionnels: '',
+        contraintes: '',
+        formationSouhaitee: '',
+        nomEntreprise: '',
+        secteurActivite: '',
+        tailleEntreprise: '',
+        postePropose: '',
+        competencesRecherchees: '',
+        typeContrat: '',
+        localisationPoste: '',
+        salairePropose: '',
+        descriptionPoste: '',
+        profilRecherche: '',
+        formationsCiblees: []
       })
       
-      // Reset du champ fichier
+      // Reset du champ fichier si présent
       const fileInput = document.getElementById('cv-upload')
       if (fileInput) fileInput.value = ''
       
-    } catch (error) {
+    } catch {
       setMessage('Une erreur est survenue. Veuillez réessayer plus tard.')
     } finally {
       setIsSubmitting(false)
@@ -100,15 +160,82 @@ export default function Recrutement() {
   return (
     <div className="container">
       <div className="hero-section">
-        <h1 className="h1">Espace Recrutement</h1>
+        <h1 className="h1">Espace Mise en Relation Professionnelle</h1>
         <p className="lead">
-          Rejoignez notre équipe ! Déposez votre candidature en remplissant le formulaire ci-dessous.
+          🤝 Connectez talents et opportunités ! Entreprises et candidats formés par CIP FARO, trouvez votre match parfait.
         </p>
       </div>
 
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-        <div className="card">
-          <h2>Formulaire de candidature</h2>
+        {!profileType ? (
+          <div className="card">
+            <h2>Qui êtes-vous ?</h2>
+            <p>Choisissez votre profil pour accéder au formulaire adapté :</p>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', margin: '2rem 0' }}>
+              <div 
+                onClick={() => setProfileType('entreprise')}
+                style={{
+                  padding: '2rem',
+                  border: '2px solid #007bff',
+                  borderRadius: '12px',
+                  textAlign: 'center',
+                  cursor: 'pointer',
+                  backgroundColor: '#f8f9ff',
+                  transition: 'all 0.3s'
+                }}
+                onMouseOver={(e) => e.target.style.backgroundColor = '#e6f0ff'}
+                onMouseOut={(e) => e.target.style.backgroundColor = '#f8f9ff'}
+              >
+                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🏢</div>
+                <h3 style={{ color: '#007bff', marginBottom: '1rem' }}>Je suis une Entreprise</h3>
+                <p style={{ color: '#666' }}>
+                  Je recherche des candidats formés par CIP FARO pour mes postes à pourvoir
+                </p>
+              </div>
+              
+              <div 
+                onClick={() => setProfileType('candidat')}
+                style={{
+                  padding: '2rem',
+                  border: '2px solid #28a745',
+                  borderRadius: '12px',
+                  textAlign: 'center',
+                  cursor: 'pointer',
+                  backgroundColor: '#f8fff8',
+                  transition: 'all 0.3s'
+                }}
+                onMouseOver={(e) => e.target.style.backgroundColor = '#e6ffe6'}
+                onMouseOut={(e) => e.target.style.backgroundColor = '#f8fff8'}
+              >
+                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎓</div>
+                <h3 style={{ color: '#28a745', marginBottom: '1rem' }}>Je suis un Candidat</h3>
+                <p style={{ color: '#666' }}>
+                  J'ai suivi une formation CIP FARO et je recherche un emploi ou un stage
+                </p>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div className="card">
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+                <h2>
+                  {profileType === 'entreprise' ? '🏢 Formulaire Entreprise' : '🎓 Formulaire Candidat'}
+                </h2>
+                <button 
+                  onClick={() => setProfileType('')}
+                  style={{
+                    background: 'none',
+                    border: '1px solid #ddd',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  ← Changer de profil
+                </button>
+              </div>
           
           {message && (
             <div className={`message ${message.includes('succès') ? 'success' : 'error'}`} style={{
@@ -124,49 +251,392 @@ export default function Recrutement() {
           )}
 
           <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '1.5rem' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-              <div>
-                <label htmlFor="prenom" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-                  Prénom *
-                </label>
-                <input
-                  type="text"
-                  id="prenom"
-                  name="prenom"
-                  value={formData.prenom}
-                  onChange={handleInputChange}
-                  required
-                  style={{
-                    width: '100%',
-                    padding: '0.75rem',
-                    border: '1px solid #ddd',
-                    borderRadius: '4px',
-                    fontSize: '1rem'
-                  }}
-                />
-              </div>
-              <div>
-                <label htmlFor="nom" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-                  Nom *
-                </label>
-                <input
-                  type="text"
-                  id="nom"
-                  name="nom"
-                  value={formData.nom}
-                  onChange={handleInputChange}
-                  required
-                  style={{
-                    width: '100%',
-                    padding: '0.75rem',
-                    border: '1px solid #ddd',
-                    borderRadius: '4px',
-                    fontSize: '1rem'
-                  }}
-                />
-              </div>
-            </div>
+            {profileType === 'entreprise' ? (
+              <>
+                {/* Formulaire Entreprise */}
+                <div>
+                  <label htmlFor="nomEntreprise" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                    Nom de l'entreprise *
+                  </label>
+                  <input
+                    type="text"
+                    id="nomEntreprise"
+                    name="nomEntreprise"
+                    value={formData.nomEntreprise}
+                    onChange={handleInputChange}
+                    required
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '1rem'
+                    }}
+                  />
+                </div>
 
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div>
+                    <label htmlFor="prenom" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                      Prénom du responsable *
+                    </label>
+                    <input
+                      type="text"
+                      id="prenom"
+                      name="prenom"
+                      value={formData.prenom}
+                      onChange={handleInputChange}
+                      required
+                      style={{
+                        width: '100%',
+                        padding: '0.75rem',
+                        border: '1px solid #ddd',
+                        borderRadius: '4px',
+                        fontSize: '1rem'
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="nom" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                      Nom du responsable *
+                    </label>
+                    <input
+                      type="text"
+                      id="nom"
+                      name="nom"
+                      value={formData.nom}
+                      onChange={handleInputChange}
+                      required
+                      style={{
+                        width: '100%',
+                        padding: '0.75rem',
+                        border: '1px solid #ddd',
+                        borderRadius: '4px',
+                        fontSize: '1rem'
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div>
+                    <label htmlFor="secteurActivite" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                      Secteur d'activité *
+                    </label>
+                    <select
+                      id="secteurActivite"
+                      name="secteurActivite"
+                      value={formData.secteurActivite}
+                      onChange={handleInputChange}
+                      required
+                      style={{
+                        width: '100%',
+                        padding: '0.75rem',
+                        border: '1px solid #ddd',
+                        borderRadius: '4px',
+                        fontSize: '1rem'
+                      }}
+                    >
+                      <option value="">Sélectionner</option>
+                      <option value="informatique">Informatique / Digital</option>
+                      <option value="formation">Formation / Éducation</option>
+                      <option value="insertion">Insertion professionnelle</option>
+                      <option value="conseil">Conseil / Coaching</option>
+                      <option value="entrepreneuriat">Entrepreneuriat</option>
+                      <option value="commerce">Commerce / Vente</option>
+                      <option value="industrie">Industrie</option>
+                      <option value="sante">Santé / Social</option>
+                      <option value="audiovisuel">Audiovisuel / Créatif</option>
+                      <option value="autre">Autre</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="tailleEntreprise" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                      Taille de l'entreprise *
+                    </label>
+                    <select
+                      id="tailleEntreprise"
+                      name="tailleEntreprise"
+                      value={formData.tailleEntreprise}
+                      onChange={handleInputChange}
+                      required
+                      style={{
+                        width: '100%',
+                        padding: '0.75rem',
+                        border: '1px solid #ddd',
+                        borderRadius: '4px',
+                        fontSize: '1rem'
+                      }}
+                    >
+                      <option value="">Sélectionner</option>
+                      <option value="1-10">1-10 salariés</option>
+                      <option value="11-50">11-50 salariés</option>
+                      <option value="51-250">51-250 salariés</option>
+                      <option value="250+">Plus de 250 salariés</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="postePropose" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                    Poste proposé *
+                  </label>
+                  <input
+                    type="text"
+                    id="postePropose"
+                    name="postePropose"
+                    value={formData.postePropose}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="Ex: Conseiller en insertion professionnelle, Formateur digital..."
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '1rem'
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="typeContrat" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                    Type de contrat *
+                  </label>
+                  <select
+                    id="typeContrat"
+                    name="typeContrat"
+                    value={formData.typeContrat}
+                    onChange={handleInputChange}
+                    required
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '1rem'
+                    }}
+                  >
+                    <option value="">Sélectionner</option>
+                    <option value="cdi">CDI</option>
+                    <option value="cdd">CDD</option>
+                    <option value="stage">Stage</option>
+                    <option value="alternance">Alternance</option>
+                    <option value="freelance">Freelance/Mission</option>
+                  </select>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div>
+                    <label htmlFor="localisationPoste" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                      Localisation du poste *
+                    </label>
+                    <input
+                      type="text"
+                      id="localisationPoste"
+                      name="localisationPoste"
+                      value={formData.localisationPoste}
+                      onChange={handleInputChange}
+                      required
+                      placeholder="Ville, télétravail possible..."
+                      style={{
+                        width: '100%',
+                        padding: '0.75rem',
+                        border: '1px solid #ddd',
+                        borderRadius: '4px',
+                        fontSize: '1rem'
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="salairePropose" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                      Salaire proposé
+                    </label>
+                    <input
+                      type="text"
+                      id="salairePropose"
+                      name="salairePropose"
+                      value={formData.salairePropose}
+                      onChange={handleInputChange}
+                      placeholder="Ex: 25-30k€, À négocier..."
+                      style={{
+                        width: '100%',
+                        padding: '0.75rem',
+                        border: '1px solid #ddd',
+                        borderRadius: '4px',
+                        fontSize: '1rem'
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="formationsCiblees" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                    Formations CIP FARO ciblées *
+                  </label>
+                  <div style={{ 
+                    display: 'grid', 
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+                    gap: '0.5rem',
+                    padding: '1rem',
+                    border: '1px solid #ddd',
+                    borderRadius: '4px',
+                    maxHeight: '200px',
+                    overflowY: 'auto'
+                  }}>
+                    {[
+                      'Conseil en insertion professionnelle (CIP)',
+                      'Formateur professionnel d\'adultes (FPA)', 
+                      'Responsable d\'Espace de Médiation Numérique',
+                      'Conseiller en médiation digitale et de l\'IA',
+                      'Concevoir et développer un projet entrepreneurial',
+                      'Je deviens chef d\'entreprise',
+                      'Excel pour Créateurs d\'Entreprise',
+                      'Microsoft Teams',
+                      'Découverte de l\'IA',
+                      'Marketing Digital',
+                      'Digitalisation d\'entreprise',
+                      'Techniques de l\'Image et du Son'
+                    ].map((formation) => (
+                      <label key={formation} style={{ display: 'flex', alignItems: 'center', fontSize: '0.9rem' }}>
+                        <input
+                          type="checkbox"
+                          value={formation}
+                          checked={formData.formationsCiblees.includes(formation)}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            setFormData(prev => ({
+                              ...prev,
+                              formationsCiblees: e.target.checked 
+                                ? [...prev.formationsCiblees, value]
+                                : prev.formationsCiblees.filter(f => f !== value)
+                            }));
+                          }}
+                          style={{ marginRight: '0.5rem' }}
+                        />
+                        {formation}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="competencesRecherchees" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                    Compétences recherchées *
+                  </label>
+                  <textarea
+                    id="competencesRecherchees"
+                    name="competencesRecherchees"
+                    value={formData.competencesRecherchees}
+                    onChange={handleInputChange}
+                    required
+                    rows={4}
+                    placeholder="Décrivez les compétences techniques et humaines recherchées..."
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '1rem',
+                      resize: 'vertical'
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="descriptionPoste" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                    Description du poste *
+                  </label>
+                  <textarea
+                    id="descriptionPoste"
+                    name="descriptionPoste"
+                    value={formData.descriptionPoste}
+                    onChange={handleInputChange}
+                    required
+                    rows={5}
+                    placeholder="Missions, responsabilités, environnement de travail..."
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '1rem',
+                      resize: 'vertical'
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="profilRecherche" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                    Profil recherché
+                  </label>
+                  <textarea
+                    id="profilRecherche"
+                    name="profilRecherche"
+                    value={formData.profilRecherche}
+                    onChange={handleInputChange}
+                    rows={3}
+                    placeholder="Expérience souhaitée, qualités personnelles, conditions particulières..."
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '1rem',
+                      resize: 'vertical'
+                    }}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Formulaire Candidat */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div>
+                    <label htmlFor="prenom" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                      Prénom *
+                    </label>
+                    <input
+                      type="text"
+                      id="prenom"
+                      name="prenom"
+                      value={formData.prenom}
+                      onChange={handleInputChange}
+                      required
+                      style={{
+                        width: '100%',
+                        padding: '0.75rem',
+                        border: '1px solid #ddd',
+                        borderRadius: '4px',
+                        fontSize: '1rem'
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="nom" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                      Nom *
+                    </label>
+                    <input
+                      type="text"
+                      id="nom"
+                      name="nom"
+                      value={formData.nom}
+                      onChange={handleInputChange}
+                      required
+                      style={{
+                        width: '100%',
+                        padding: '0.75rem',
+                        border: '1px solid #ddd',
+                        borderRadius: '4px',
+                        fontSize: '1rem'
+                      }}
+                    />
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* Champs communs */}
             <div>
               <label htmlFor="email" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
                 Email *
@@ -190,7 +660,7 @@ export default function Recrutement() {
 
             <div>
               <label htmlFor="telephone" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-                Téléphone
+                Téléphone *
               </label>
               <input
                 type="tel"
@@ -198,6 +668,7 @@ export default function Recrutement() {
                 name="telephone"
                 value={formData.telephone}
                 onChange={handleInputChange}
+                required
                 style={{
                   width: '100%',
                   padding: '0.75rem',
@@ -208,99 +679,12 @@ export default function Recrutement() {
               />
             </div>
 
-            <div>
-              <label htmlFor="posteRecherche" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-                Poste recherché
-              </label>
-              <select
-                id="posteRecherche"
-                name="posteRecherche"
-                value={formData.posteRecherche}
-                onChange={handleInputChange}
-                style={{
-                  width: '100%',
-                  padding: '0.75rem',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '1rem'
-                }}
-              >
-                <option value="">Sélectionner un poste</option>
-                <option value="formateur">Formateur</option>
-                <option value="assistant-formation">Assistant de formation</option>
-                <option value="coordinateur">Coordinateur pédagogique</option>
-                <option value="secretariat">Secrétariat</option>
-                <option value="autre">Autre</option>
-              </select>
-            </div>
-
-            <div>
-              <label htmlFor="experience" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-                Expérience (années)
-              </label>
-              <select
-                id="experience"
-                name="experience"
-                value={formData.experience}
-                onChange={handleInputChange}
-                style={{
-                  width: '100%',
-                  padding: '0.75rem',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '1rem'
-                }}
-              >
-                <option value="">Sélectionner</option>
-                <option value="0-1">0-1 an</option>
-                <option value="2-5">2-5 ans</option>
-                <option value="5-10">5-10 ans</option>
-                <option value="10+">10+ ans</option>
-              </select>
-            </div>
-
-            <div>
-              <label htmlFor="disponibilite" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-                Disponibilité
-              </label>
-              <select
-                id="disponibilite"
-                name="disponibilite"
-                value={formData.disponibilite}
-                onChange={handleInputChange}
-                style={{
-                  width: '100%',
-                  padding: '0.75rem',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '1rem'
-                }}
-              >
-                <option value="">Sélectionner</option>
-                <option value="immédiate">Immédiate</option>
-                <option value="1-mois">Sous 1 mois</option>
-                <option value="2-mois">Sous 2 mois</option>
-                <option value="3-mois">Sous 3 mois</option>
-              </select>
-            </div>
-
-            {/* Questionnaire de positionnement */}
-            <div style={{ 
-              backgroundColor: '#f8f9fa', 
-              padding: '1.5rem', 
-              borderRadius: '8px', 
-              margin: '2rem 0',
-              border: '1px solid #e9ecef'
-            }}>
-              <h3 style={{ marginTop: 0, color: '#495057' }}>📋 Questionnaire de positionnement</h3>
-              <p style={{ fontSize: '0.9rem', color: '#6c757d', marginBottom: '1.5rem' }}>
-                Ces informations nous aideront à évaluer votre profil et à adapter la formation à vos besoins.
-              </p>
-
-              <div style={{ display: 'grid', gap: '1.5rem' }}>
+            {/* Suite du formulaire candidat */}
+            {profileType === 'candidat' && (
+              <>
                 <div>
                   <label htmlFor="formationSouhaitee" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-                    Formation souhaitée *
+                    Formation suivie chez CIP FARO *
                   </label>
                   <select
                     id="formationSouhaitee"
@@ -316,7 +700,7 @@ export default function Recrutement() {
                       fontSize: '1rem'
                     }}
                   >
-                    <option value="">Choisir une formation</option>
+                    <option value="">Choisir la formation suivie</option>
                     <optgroup label="🎓 Titres Professionnels">
                       <option value="tp-cip">Conseil en insertion professionnelle (CIP)</option>
                       <option value="tp-fpa">Formateur professionnel d'adultes (FPA)</option>
@@ -326,15 +710,12 @@ export default function Recrutement() {
                     <optgroup label="💼 Entrepreneuriat & Gestion">
                       <option value="projet-entrepreneurial">Concevoir et développer un projet entrepreneurial</option>
                       <option value="chef-entreprise">Je deviens chef d'entreprise</option>
-                      <option value="certification-tpe-1">Certification Entrepreneur de la TPE (version 1)</option>
-                      <option value="certification-tpe-2">Certification Entrepreneur de la TPE (version 2)</option>
-                      <option value="formation-createurs">Formation créateurs et repreneurs d'entreprises</option>
+                      <option value="excel-createurs">Excel pour Créateurs d'Entreprise</option>
                     </optgroup>
                     <optgroup label="💻 Bureautique & Informatique">
                       <option value="initiation-bureautique">Initiation à la bureautique</option>
-                      <option value="excel-createurs">Excel pour Créateurs d'Entreprise</option>
-                      <option value="certification-office">Préparation certification Microsoft Office</option>
                       <option value="microsoft-teams">Maîtrisez Microsoft Teams</option>
+                      <option value="certification-office">Préparation certification Microsoft Office</option>
                     </optgroup>
                     <optgroup label="🤖 Intelligence Artificielle & Digital">
                       <option value="decouverte-ia">Découverte de l'IA : informatique et algorithmes</option>
@@ -344,27 +725,74 @@ export default function Recrutement() {
                     <optgroup label="🎬 Audiovisuel & Créatif">
                       <option value="image-son">Techniques de l'Image et du Son</option>
                     </optgroup>
-                    <optgroup label="👥 Insertion & Accompagnement">
-                      <option value="facilitateur-numerique">Facilitateur Numérique Insertion Professionnelle</option>
-                      <option value="cohesion-equipes">Cohésion d'équipes</option>
-                    </optgroup>
-                    <optgroup label="🚑 Sécurité">
-                      <option value="sst">Sauveteur Secouriste du Travail (SST)</option>
-                    </optgroup>
-                    <option value="autre">Autre formation (préciser en commentaire)</option>
+                    <option value="autre">Autre formation CIP FARO</option>
                   </select>
                 </div>
 
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div>
+                    <label htmlFor="posteRecherche" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                      Type d'emploi recherché *
+                    </label>
+                    <select
+                      id="posteRecherche"
+                      name="posteRecherche"
+                      value={formData.posteRecherche}
+                      onChange={handleInputChange}
+                      required
+                      style={{
+                        width: '100%',
+                        padding: '0.75rem',
+                        border: '1px solid #ddd',
+                        borderRadius: '4px',
+                        fontSize: '1rem'
+                      }}
+                    >
+                      <option value="">Sélectionner</option>
+                      <option value="cdi">CDI</option>
+                      <option value="cdd">CDD</option>
+                      <option value="stage">Stage</option>
+                      <option value="alternance">Alternance</option>
+                      <option value="freelance">Freelance/Mission</option>
+                      <option value="temps-partiel">Temps partiel</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="disponibilite" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                      Disponibilité *
+                    </label>
+                    <select
+                      id="disponibilite"
+                      name="disponibilite"
+                      value={formData.disponibilite}
+                      onChange={handleInputChange}
+                      required
+                      style={{
+                        width: '100%',
+                        padding: '0.75rem',
+                        border: '1px solid #ddd',
+                        borderRadius: '4px',
+                        fontSize: '1rem'
+                      }}
+                    >
+                      <option value="">Sélectionner</option>
+                      <option value="immédiate">Immédiate</option>
+                      <option value="1-mois">Sous 1 mois</option>
+                      <option value="2-mois">Sous 2 mois</option>
+                      <option value="3-mois">Sous 3 mois</option>
+                    </select>
+                  </div>
+                </div>
+
                 <div>
-                  <label htmlFor="niveauEtudes" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-                    Niveau d'études *
+                  <label htmlFor="experience" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                    Expérience professionnelle
                   </label>
                   <select
-                    id="niveauEtudes"
-                    name="niveauEtudes"
-                    value={formData.niveauEtudes}
+                    id="experience"
+                    name="experience"
+                    value={formData.experience}
                     onChange={handleInputChange}
-                    required
                     style={{
                       width: '100%',
                       padding: '0.75rem',
@@ -374,43 +802,17 @@ export default function Recrutement() {
                     }}
                   >
                     <option value="">Sélectionner</option>
-                    <option value="sans-diplome">Sans diplôme</option>
-                    <option value="cap-bep">CAP/BEP</option>
-                    <option value="bac">Baccalauréat</option>
-                    <option value="bac+2">Bac+2 (BTS, DUT, etc.)</option>
-                    <option value="bac+3">Bac+3 (Licence, etc.)</option>
-                    <option value="bac+5">Bac+5 et plus (Master, Ingénieur, etc.)</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="competencesInformatiques" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-                    Compétences informatiques
-                  </label>
-                  <select
-                    id="competencesInformatiques"
-                    name="competencesInformatiques"
-                    value={formData.competencesInformatiques}
-                    onChange={handleInputChange}
-                    style={{
-                      width: '100%',
-                      padding: '0.75rem',
-                      border: '1px solid #ddd',
-                      borderRadius: '4px',
-                      fontSize: '1rem'
-                    }}
-                  >
-                    <option value="">Évaluer votre niveau</option>
-                    <option value="debutant">Débutant (utilisation basique)</option>
-                    <option value="intermediaire">Intermédiaire (bureautique, internet)</option>
-                    <option value="avance">Avancé (programmation, logiciels spécialisés)</option>
-                    <option value="expert">Expert (développement, administration système)</option>
+                    <option value="débutant">Débutant / Reconversion</option>
+                    <option value="0-2">0-2 ans</option>
+                    <option value="2-5">2-5 ans</option>
+                    <option value="5-10">5-10 ans</option>
+                    <option value="10+">10+ ans</option>
                   </select>
                 </div>
 
                 <div>
                   <label htmlFor="motivations" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-                    Motivations pour cette formation *
+                    Motivations et objectifs professionnels *
                   </label>
                   <textarea
                     id="motivations"
@@ -418,8 +820,8 @@ export default function Recrutement() {
                     value={formData.motivations}
                     onChange={handleInputChange}
                     required
-                    rows={3}
-                    placeholder="Décrivez pourquoi vous souhaitez suivre cette formation..."
+                    rows={4}
+                    placeholder="Décrivez vos motivations, vos objectifs de carrière et ce que vous recherchez chez un employeur..."
                     style={{
                       width: '100%',
                       padding: '0.75rem',
@@ -432,16 +834,16 @@ export default function Recrutement() {
                 </div>
 
                 <div>
-                  <label htmlFor="objectifsProfessionnels" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-                    Objectifs professionnels
+                  <label htmlFor="competencesInformatiques" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                    Compétences principales acquises
                   </label>
                   <textarea
-                    id="objectifsProfessionnels"
-                    name="objectifsProfessionnels"
-                    value={formData.objectifsProfessionnels}
+                    id="competencesInformatiques"
+                    name="competencesInformatiques"
+                    value={formData.competencesInformatiques}
                     onChange={handleInputChange}
                     rows={3}
-                    placeholder="Quels sont vos objectifs après cette formation ? (emploi recherché, évolution de carrière...)"
+                    placeholder="Listez vos compétences techniques, logiciels maîtrisés, certifications obtenues..."
                     style={{
                       width: '100%',
                       padding: '0.75rem',
@@ -454,76 +856,34 @@ export default function Recrutement() {
                 </div>
 
                 <div>
-                  <label htmlFor="projetsAnterieurs" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-                    Projets ou expériences en lien avec la formation
+                  <label htmlFor="cv-upload" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+                    CV * (PDF, DOC, DOCX - Max 5 MB)
                   </label>
-                  <textarea
-                    id="projetsAnterieurs"
-                    name="projetsAnterieurs"
-                    value={formData.projetsAnterieurs}
-                    onChange={handleInputChange}
-                    rows={3}
-                    placeholder="Décrivez vos projets, expériences ou réalisations en lien avec le domaine..."
+                  <input
+                    type="file"
+                    id="cv-upload"
+                    name="cv"
+                    accept=".pdf,.doc,.docx"
+                    onChange={handleFileChange}
+                    required
                     style={{
                       width: '100%',
                       padding: '0.75rem',
                       border: '1px solid #ddd',
                       borderRadius: '4px',
-                      fontSize: '1rem',
-                      resize: 'vertical'
+                      fontSize: '1rem'
                     }}
                   />
+                  {formData.cv && (
+                    <div style={{ marginTop: '0.5rem', color: '#28a745' }}>
+                      ✓ Fichier sélectionné : {formData.cv.name}
+                    </div>
+                  )}
                 </div>
+              </>
+            )}
 
-                <div>
-                  <label htmlFor="contraintes" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-                    Contraintes particulières
-                  </label>
-                  <textarea
-                    id="contraintes"
-                    name="contraintes"
-                    value={formData.contraintes}
-                    onChange={handleInputChange}
-                    rows={2}
-                    placeholder="Contraintes de planning, familiales, géographiques, accessibilité..."
-                    style={{
-                      width: '100%',
-                      padding: '0.75rem',
-                      border: '1px solid #ddd',
-                      borderRadius: '4px',
-                      fontSize: '1rem',
-                      resize: 'vertical'
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
 
-            <div>
-              <label htmlFor="cv-upload" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-                CV * (PDF, DOC, DOCX - Max 5 MB)
-              </label>
-              <input
-                type="file"
-                id="cv-upload"
-                name="cv"
-                accept=".pdf,.doc,.docx"
-                onChange={handleFileChange}
-                required
-                style={{
-                  width: '100%',
-                  padding: '0.75rem',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '1rem'
-                }}
-              />
-              {formData.cv && (
-                <div style={{ marginTop: '0.5rem', color: '#28a745' }}>
-                  ✓ Fichier sélectionné : {formData.cv.name}
-                </div>
-              )}
-            </div>
 
             <button
               type="submit"
@@ -536,21 +896,26 @@ export default function Recrutement() {
                 cursor: isSubmitting ? 'not-allowed' : 'pointer'
               }}
             >
-              {isSubmitting ? 'Envoi en cours...' : 'Envoyer ma candidature'}
+              {isSubmitting ? 'Envoi en cours...' : 
+                profileType === 'entreprise' ? 'Déposer mon offre d\'emploi' : 'Envoyer ma candidature'
+              }
             </button>
           </form>
-        </div>
+            </div>
 
-        <div className="card" style={{ marginTop: '2rem' }}>
-          <h3>Informations importantes</h3>
-          <ul style={{ lineHeight: '1.6' }}>
-            <li>Tous les champs marqués d'un astérisque (*) sont obligatoires</li>
-            <li>Formats acceptés pour le CV : PDF, DOC, DOCX</li>
-            <li>Taille maximum du fichier : 5 MB</li>
-            <li>Nous nous engageons à vous recontacter sous 48h</li>
-            <li>Vos données sont traitées de manière confidentielle</li>
-          </ul>
-        </div>
+            <div className="card" style={{ marginTop: '2rem' }}>
+              <h3>Informations importantes</h3>
+              <ul style={{ lineHeight: '1.6' }}>
+                <li>Tous les champs marqués d'un astérisque (*) sont obligatoires</li>
+                {profileType === 'candidat' && <li>Formats acceptés pour le CV : PDF, DOC, DOCX</li>}
+                {profileType === 'candidat' && <li>Taille maximum du fichier : 5 MB</li>}
+                <li>Nous nous engageons à vous recontacter sous 48h</li>
+                <li>Vos données sont traitées de manière confidentielle</li>
+                <li>CIP FARO facilite la mise en relation mais ne garantit pas l'embauche</li>
+              </ul>
+            </div>
+          </>
+        )}
       </div>
     </div>
   )
