@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Déposer mon CV</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 2em; background-color: #f4f4f4; }
+        form { background: white; padding: 2em; border-radius: 8px; max-width: 500px; margin: auto; }
+        input, textarea, button { display: block; width: 100%; margin-bottom: 1em; padding: 0.5em; }
+        button { background-color: #0078D4; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .confirmation { display: none; text-align: center; margin-top: 1em; color: green; }
+    </style>
+</head>
+<body>
+
+<h2 style="text-align:center;">Déposer mon CV</h2>
+
+<form id="cvForm">
+    <input type="text" name="nom" placeholder="Nom" required>
+    <input type="text" name="prenom" placeholder="Prénom" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="text" name="domaine" placeholder="Domaine recherché" required>
+    <textarea name="message" placeholder="Message" rows="4" required></textarea>
+    <button type="submit">Envoyer</button>
+</form>
+
+<div class="confirmation" id="confirmationMessage">
+    Merci, votre candidature a été envoyée avec succès.
+</div>
+
+<script>
+document.getElementById("cvForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const data = new FormData(form);
+
+    fetch("https://prod-00.westeurope.logic.azure.com:443/workflows/example-id/triggers/manual/paths/invoke?api-version=2016-10-01", {
+        method: "POST",
+        body: data
+    })
+    .then(response => {
+        if (response.ok) {
+            document.getElementById("confirmationMessage").style.display = "block";
+            form.reset();
+            setTimeout(() => {
+                window.location.href = "merci.html";
+            }, 2000);
+        } else {
+            alert("Une erreur est survenue. Veuillez réessayer.");
+        }
+    })
+    .catch(error => {
+        alert("Erreur de connexion.");
+    });
+});
+</script>
+
+</body>
+</html>

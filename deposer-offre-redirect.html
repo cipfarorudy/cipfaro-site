@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Déposer une offre</title>
+</head>
+<body>
+  <h2>Déposer une offre d'emploi ou de stage</h2>
+  <form id="offreForm">
+    <label for="entreprise">Nom de l'entreprise:</label><br>
+    <input type="text" id="entreprise" name="entreprise" required><br><br>
+
+    <label for="titre">Titre de l'offre:</label><br>
+    <input type="text" id="titre" name="titre" required><br><br>
+
+    <label for="type">Type d'offre:</label><br>
+    <select id="type" name="type" required>
+      <option value="emploi">Emploi</option>
+      <option value="stage">Stage</option>
+    </select><br><br>
+
+    <label for="description">Description:</label><br>
+    <textarea id="description" name="description" required></textarea><br><br>
+
+    <label for="email">Email de contact:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <button type="submit">Envoyer</button>
+  </form>
+
+  <script>
+    document.getElementById('offreForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = {
+        entreprise: form.entreprise.value,
+        titre: form.titre.value,
+        type: form.type.value,
+        description: form.description.value,
+        email: form.email.value
+      };
+
+      fetch("https://prod-00.westeurope.logic.azure.com:443/workflows/example-id/triggers/manual/paths/invoke?api-version=2016-10-01", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => {
+        if (response.ok) {
+          window.location.href = "merci.html";
+        } else {
+          alert("Une erreur est survenue lors de l'envoi du formulaire.");
+        }
+      })
+      .catch(error => {
+        console.error("Erreur:", error);
+        alert("Une erreur est survenue lors de l'envoi du formulaire.");
+      });
+    });
+  </script>
+</body>
+</html>
