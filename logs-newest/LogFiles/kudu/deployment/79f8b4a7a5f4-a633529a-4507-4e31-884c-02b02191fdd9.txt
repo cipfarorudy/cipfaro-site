@@ -1,0 +1,39 @@
+2025-10-05T18:01:16  Fetching changes.
+2025-10-05T18:01:16    Starting  LocalZipHandler
+2025-10-05T18:01:16    Cleaning up temp folders from previous zip deployments and extracting pushed zip file /tmp/zipdeploy/fc9f5804-10d9-4d84-b5b8-b046bddfdac6.zip (1.26 MB) to /tmp/zipdeploy/extracted
+2025-10-05T18:01:22  Updating submodules.
+2025-10-05T18:01:22  Preparing deployment for commit id '86a04550-7'.
+2025-10-05T18:01:22  PreDeployment: context.CleanOutputPath False
+2025-10-05T18:01:22  PreDeployment: context.OutputPath /home/site/wwwroot
+2025-10-05T18:01:23  Repository path is /tmp/zipdeploy/extracted
+2025-10-05T18:01:23  Running oryx build...
+2025-10-05T18:01:23    Command: oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform php --platform-version 8.0 -p virtualenv_name= --log-file /tmp/build-debug.log  -i /tmp/8de043931932136 | tee /tmp/oryx-build.log
+2025-10-05T18:01:25    Operation performed by Microsoft Oryx, https://github.com/Microsoft/Oryx
+2025-10-05T18:01:25    You can report issues at https://github.com/Microsoft/Oryx/issues
+2025-10-05T18:01:25    
+2025-10-05T18:01:25    Oryx Version: 0.2.20250611.1+0649de32f1279969c9023dd41b389cce4bb94493, Commit: 0649de32f1279969c9023dd41b389cce4bb94493, ReleaseTagName: 20250611.1
+2025-10-05T18:01:26    
+2025-10-05T18:01:26    Build Operation ID: 732ff7f58020bdd5
+2025-10-05T18:01:26    Repository Commit : 86a04550-7e18-43cb-9b46-a3516a96194c
+2025-10-05T18:01:26    OS Type           : buster
+2025-10-05T18:01:26    Image Type        : githubactions
+2025-10-05T18:01:26    Error: Couldn't detect a version for the platform 'php' in the repo.
+2025-10-05T18:01:26    
+2025-10-05T18:01:26    Primary SDK Storage URL: https://oryx-cdn.microsoft.io
+2025-10-05T18:01:26    Backup SDK Storage URL: https://oryxsdks-cdn.azureedge.net
+2025-10-05T18:01:26    Detecting platforms...
+2025-10-05T18:01:26    Could not detect any platform in the source directory.
+2025-10-05T18:01:27    Error: Couldn't detect a version for the platform 'php' in the repo.
+/bin/bash -c "oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform php --platform-version 8.0 -p virtualenv_name= --log-file /tmp/build-debug.log  -i /tmp/8de043931932136 | tee /tmp/oryx-build.log ; exit $PIPESTATUS "
+2025-10-05T18:01:27  
+2025-10-05T18:01:27  
+2025-10-05T18:01:27  Generating summary of Oryx build
+2025-10-05T18:01:28  Parsing the build logs
+2025-10-05T18:01:28  Found 0 issue(s)
+2025-10-05T18:01:28  
+2025-10-05T18:01:28  Build Summary :
+2025-10-05T18:01:28  ===============
+2025-10-05T18:01:29  Errors (0)
+2025-10-05T18:01:29  Warnings (0)
+2025-10-05T18:01:29  
+2025-10-05T18:01:30  Deployment Failed. deployer = OneDeploy deploymentPath = OneDeploy

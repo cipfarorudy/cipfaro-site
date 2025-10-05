@@ -1,0 +1,6 @@
+<step title="Incoming Request" date="2025-10-05T18:22:17.710" instance="93ba60" url="/api/settings" method="GET" type="request" pid="803,1,51" Host="cipfaro-formations.scm.azurewebsites.net" User-Agent="GITHUBACTIONS_DeployWebAppToAzure_55c9cfb4258ba8b70f1dc89468abbf68e94f2eb521b768f4823f3cce9cf4b357" Authorization="Bea..." Content-Type="application/json; charset=utf-8" Content-Length="0" X-ARR-LOG-ID="7b455f96-c91e-4858-981a-57c5a5810638" CLIENT-IP="20.55.15.98:11264" X-SITE-DEPLOYMENT-ID="cipfaro-formations" WAS-DEFAULT-HOSTNAME="cipfaro-formations.scm.azurewebsites.net" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/api/settings" X-Client-IP="20.55.15.98" X-Client-Port="11264" >
+  <step title="Cleanup Xml Logs" date="2025-10-05T18:22:17.719" >
+    <step title="Cleanup Infos" date="2025-10-05T18:22:17.784" totalFiles="405" totalCleanup="245" /><!-- duration: 47ms -->
+  </step><!-- duration: 129ms -->
+  <step title="Outgoing response" date="2025-10-05T18:22:17.878" type="response" statusCode="200" statusText="OK" /><!-- duration: 38ms -->
+</step><!-- duration: 240ms -->

@@ -1,0 +1,9 @@
+<step title="Incoming Request" date="2025-10-04T13:04:23.847" instance="da4120" url="/api/deployments/latest?deployer=OneDeploy&amp;time=2025-10-04_13-04-17Z" method="GET" type="request" pid="821,1,17" Host="cipfaro-formations.scm.azurewebsites.net" User-Agent="GITHUBACTIONS_DeployWebAppToAzure_55c9cfb4258ba8b70f1dc89468abbf68e94f2eb521b768f4823f3cce9cf4b357" Authorization="Bea..." Content-Type="application/json; charset=utf-8" Cookie="ARRAffinity=da4120b0cd2c3bf45e7a522fd31172e3f3306e5d97465e97afa2b8b5d3b0b609;Path=/;HttpOnly;Secure;Domain=cipfaro-formations.scm.azurewebsites.net; ARRAffinitySameSite=da4120b0cd2c3bf45e7a522fd31172e3f3306e5d97465e97afa2b8b5d3b0b609;Path=/;HttpOnly;SameSite=None;Secure;Domain=cipfaro-formations.scm.azurewebsites.net" Content-Length="0" X-ARR-LOG-ID="405fcffc-8ca9-493c-b6f1-3318fefcd54a" CLIENT-IP="104.209.7.35:30720" X-SITE-DEPLOYMENT-ID="cipfaro-formations" WAS-DEFAULT-HOSTNAME="cipfaro-formations.scm.azurewebsites.net" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/api/deployments/latest?deployer=OneDeploy&amp;time=2025-10-04_13-04-17Z" X-Client-IP="104.209.7.35" X-Client-Port="30720" >
+  <step title="Cleanup Xml Logs" date="2025-10-04T13:04:24.147" /><!-- duration: 236ms -->
+  <step title="DeploymentService.GetResult" date="2025-10-04T13:04:24.408" >
+    <step title="DeploymentService.GetLatestDeployment" date="2025-10-04T13:04:24.413" >
+      <step title="DeploymentManager.GetResults" date="2025-10-04T13:04:24.420" /><!-- duration: 225ms -->
+    </step><!-- duration: 238ms -->
+  </step><!-- duration: 248ms -->
+  <step title="Outgoing response" date="2025-10-04T13:04:24.663" type="response" statusCode="202" statusText="Accepted" /><!-- duration: 5ms -->
+</step><!-- duration: 828ms -->

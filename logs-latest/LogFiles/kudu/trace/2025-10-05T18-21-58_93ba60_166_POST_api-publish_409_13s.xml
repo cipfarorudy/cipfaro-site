@@ -1,0 +1,14 @@
+<step title="Incoming Request" date="2025-10-05T18:21:58.990" instance="93ba60" url="/api/publish?async=true&amp;deployer=GITHUB_ONE_DEPLOY&amp;type=zip&amp;message=%7B%22type%22%3A%22deployment%22%2C%22sha%22%3A%22cff043d671ffc58d643ad44e85fa874cc6eecd8e%22%2C%22repoName%22%3A%22cipfarorudy%2Fcipfaro-site%22%2C%22actor%22%3A%22cipfarorudy%22%2C%22slotName%22%3A%22Production%22%2C%22commitMessage%22%3A%22%22%7D" method="POST" type="request" pid="803,1,30" Host="cipfaro-formations.scm.azurewebsites.net" User-Agent="GITHUBACTIONS_DeployWebAppToAzure_55c9cfb4258ba8b70f1dc89468abbf68e94f2eb521b768f4823f3cce9cf4b357" Authorization="Bea..." Content-Type="application/octet-stream" Cookie="ARRAffinity=93ba60693efd27c98d25ac695a6ef440c44ba4652104de2a3ed78f5e62ba7f13;Path=/;HttpOnly;Secure;Domain=cipfaro-formations.scm.azurewebsites.net; ARRAffinitySameSite=93ba60693efd27c98d25ac695a6ef440c44ba4652104de2a3ed78f5e62ba7f13;Path=/;HttpOnly;SameSite=None;Secure;Domain=cipfaro-formations.scm.azurewebsites.net" Transfer-Encoding="chunked" X-ARR-LOG-ID="a063a6a8-573d-423f-91e7-5875624d42ed" CLIENT-IP="20.42.42.213:51200" X-SITE-DEPLOYMENT-ID="cipfaro-formations" WAS-DEFAULT-HOSTNAME="cipfaro-formations.scm.azurewebsites.net" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/api/publish?async=true&amp;deployer=GITHUB_ONE_DEPLOY&amp;type=zip&amp;message=%7B%22type%22%3A%22deployment%22%2C%22sha%22%3A%22cff043d671ffc58d643ad44e85fa874cc6eecd8e%22%2C%22repoName%22%3A%22cipfarorudy%2Fcipfaro-site%22%2C%22actor%22%3A%22cipfarorudy%22%2C%22slotName%22%3A%22Production%22%2C%22commitMessage%22%3A%22%22%7D" X-Client-IP="20.42.42.213" X-Client-Port="51200" >
+  <step title="OneDeploy" date="2025-10-05T18:21:59.017" >
+    <step title="Starting PushDeployAsync" date="2025-10-05T18:21:59.040" /><!-- duration: 15ms -->
+    <step title="Writing artifact to /tmp/zipdeploy/3bb6172e-7b69-466c-bed6-422d56ab86e3.zip" date="2025-10-05T18:21:59.092" >
+      <step title="Writing multipart request body to /tmp/zipdeploy/3bb6172e-7b69-466c-bed6-422d56ab86e3.zip" date="2025-10-05T18:21:59.119" /><!-- duration: 10ms -->
+    </step><!-- duration: 11841ms -->
+    <step title="Start deployment in the background" date="2025-10-05T18:22:11.173" >
+      <step title="Acquiring Deployment Lock" date="2025-10-05T18:22:11.596" /><!-- duration: 35ms -->
+      <step title="Cannot Acquire Deployment Lock already held" date="2025-10-05T18:22:11.666" /><!-- duration: 18ms -->
+    </step><!-- duration: 792ms -->
+    <step title="There is a deployment currently in progress. Please try again when it completes." date="2025-10-05T18:22:12.003" /><!-- duration: 17ms -->
+  </step><!-- duration: 13022ms -->
+  <step title="Outgoing response" date="2025-10-05T18:22:12.124" type="response" statusCode="409" statusText="Conflict" /><!-- duration: 38ms -->
+</step><!-- duration: 13227ms -->

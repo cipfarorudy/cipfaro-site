@@ -1,0 +1,57 @@
+<step title="BackgroundTrace" date="2025-10-05T15:48:53.104" instance="93ba60" url="/api/publish" method="POST" >
+  <step title="Cleanup Xml Logs" date="2025-10-05T15:48:53.114" /><!-- duration: 22ms -->
+  <step title="Creating temporary deployment - FetchDeploymentManager" date="2025-10-05T15:48:53.372" /><!-- duration: 11ms -->
+  <step title="Creating temporary deployment" date="2025-10-05T15:48:53.402" /><!-- duration: 102ms -->
+  <step title="Performing fetch based deployment" date="2025-10-05T15:48:53.572" >
+    <step title="Cleaning up temp folders from previous zip deployments and extracting pushed zip file /tmp/zipdeploy/1b2e074e-6007-4ed4-8b27-72c1d91c2811.zip (75.41 MB) to /tmp/zipdeploy/extracted" date="2025-10-05T15:48:54.871" >
+      <step title="ChmodRecursive Process exited with total time taken in ms: 420" date="2025-10-05T15:49:41.526" /><!-- duration: 5ms -->
+    </step><!-- duration: 46672ms -->
+    <step title="Deployment timer started" date="2025-10-05T15:49:43.585" >
+      <step title="DeploymentManager.Deploy(id:5a9586f3-c4dd-428d-ae2a-dc9ecbfb727a)" date="2025-10-05T15:49:43.604" >
+        <step title="Collecting changeset information" date="2025-10-05T15:49:43.700" /><!-- duration: 234ms -->
+        <step title="Updating submodules" date="2025-10-05T15:49:43.948" /><!-- duration: 1196ms -->
+        <step title="Determining deployment builder" date="2025-10-05T15:49:45.515" >
+          <step title="Builder is OryxBuilder" date="2025-10-05T15:49:45.550" /><!-- duration: 6ms -->
+        </step><!-- duration: 51ms -->
+        <step title="PreDeployment: context.CleanOutputPath False" date="2025-10-05T15:49:45.681" >
+          <step title="PreDeployment: context.OutputPath /home/site/wwwroot" date="2025-10-05T15:49:45.895" >
+            <step title="Building" date="2025-10-05T15:49:46.234" >
+              <step title="Executing external process" date="2025-10-05T15:49:47.102" type="process" path="bash" arguments="-c &quot;oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform php --platform-version 8.0 -p virtualenv_name= --log-file /tmp/build-debug.log  -i /tmp/8de0426ceaccfce | tee /tmp/oryx-build.log ; exit $PIPESTATUS &quot;" >
+                <step title="Cpu: build.sh(877,0.000s)+oryx(850,9.320s)+tee(851,0.000s)+bash(849,0.000s)=total(9.320s)" date="2025-10-05T15:51:12.187" /><!-- duration: 18ms -->
+                <step title="bash: no io activity for 61s, prev-cpu=-1.000s, current-cpu=9.320s" date="2025-10-05T15:51:12.214" /><!-- duration: 6ms -->
+                <step title="Cpu: rsync(1181,1.660s)+rsync(1180,0.700s)+rsync(1179,1.380s)+build.sh(877,0.150s)+oryx(850,11.210s)+tee(851,0.010s)+bash(849,0.000s)=total(15.110s)" date="2025-10-05T15:55:05.000" /><!-- duration: 28ms -->
+                <step title="bash: no io activity for 60s, prev-cpu=-1.000s, current-cpu=15.110s" date="2025-10-05T15:55:05.079" /><!-- duration: 36ms -->
+                <step title="Cpu: rsync(1181,3.450s)+rsync(1180,0.920s)+rsync(1179,1.870s)+build.sh(877,0.150s)+oryx(850,11.390s)+tee(851,0.010s)+bash(849,0.000s)=total(17.790s)" date="2025-10-05T15:56:05.222" /><!-- duration: 36ms -->
+                <step title="bash: no io activity for 121s, prev-cpu=15.110s, current-cpu=17.790s" date="2025-10-05T15:56:05.298" /><!-- duration: 63ms -->
+                <step title="Cpu: rsync(1181,5.300s)+rsync(1180,1.270s)+rsync(1179,2.540s)+build.sh(877,0.150s)+oryx(850,11.640s)+tee(851,0.010s)+bash(849,0.000s)=total(20.910s)" date="2025-10-05T15:57:05.478" /><!-- duration: 12ms -->
+                <step title="bash: no io activity for 181s, prev-cpu=17.790s, current-cpu=20.910s" date="2025-10-05T15:57:05.529" /><!-- duration: 29ms -->
+                <step title="Cpu: rsync(1181,7.110s)+rsync(1180,1.700s)+rsync(1179,3.300s)+build.sh(877,0.150s)+oryx(850,11.900s)+tee(851,0.010s)+bash(849,0.000s)=total(24.170s)" date="2025-10-05T15:58:06.078" /><!-- duration: 32ms -->
+                <step title="bash: no io activity for 241s, prev-cpu=20.910s, current-cpu=24.170s" date="2025-10-05T15:58:06.130" /><!-- duration: 63ms -->
+                <step title="Cpu: rsync(1181,8.830s)+rsync(1180,2.070s)+rsync(1179,3.900s)+build.sh(877,0.150s)+oryx(850,12.080s)+tee(851,0.010s)+bash(849,0.000s)=total(27.040s)" date="2025-10-05T15:59:06.308" /><!-- duration: 40ms -->
+                <step title="bash: no io activity for 302s, prev-cpu=24.170s, current-cpu=27.040s" date="2025-10-05T15:59:06.364" /><!-- duration: 33ms -->
+                <step title="Cpu: rsync(1181,10.460s)+rsync(1180,2.530s)+rsync(1179,4.450s)+build.sh(877,0.150s)+oryx(850,12.230s)+tee(851,0.010s)+bash(849,0.000s)=total(29.830s)" date="2025-10-05T16:00:06.628" /><!-- duration: 35ms -->
+                <step title="bash: no io activity for 362s, prev-cpu=27.040s, current-cpu=29.830s" date="2025-10-05T16:00:06.728" /><!-- duration: 65ms -->
+                <step title="Cpu: rsync(1181,11.950s)+rsync(1180,3.170s)+rsync(1179,5.030s)+build.sh(877,0.150s)+oryx(850,12.360s)+tee(851,0.010s)+bash(849,0.000s)=total(32.670s)" date="2025-10-05T16:01:07.015" /><!-- duration: 9ms -->
+                <step title="bash: no io activity for 422s, prev-cpu=29.830s, current-cpu=32.670s" date="2025-10-05T16:01:07.033" /><!-- duration: 22ms -->
+                <step title="Cpu: rsync(1181,13.480s)+rsync(1180,3.810s)+rsync(1179,5.610s)+build.sh(877,0.150s)+oryx(850,12.570s)+tee(851,0.010s)+bash(849,0.000s)=total(35.630s)" date="2025-10-05T16:02:07.436" /><!-- duration: 26ms -->
+                <step title="bash: no io activity for 483s, prev-cpu=32.670s, current-cpu=35.630s" date="2025-10-05T16:02:07.515" /><!-- duration: 106ms -->
+                <step title="Cpu: rsync(1181,15.250s)+rsync(1180,4.280s)+rsync(1179,6.660s)+build.sh(877,0.150s)+oryx(850,12.680s)+tee(851,0.010s)+bash(849,0.000s)=total(39.030s)" date="2025-10-05T16:03:07.819" /><!-- duration: 33ms -->
+                <step title="bash: no io activity for 543s, prev-cpu=35.630s, current-cpu=39.030s" date="2025-10-05T16:03:07.885" /><!-- duration: 29ms -->
+                <step title="Cpu: rsync(1181,17.350s)+rsync(1180,4.600s)+rsync(1179,7.580s)+build.sh(877,0.150s)+oryx(850,12.740s)+tee(851,0.010s)+bash(849,0.000s)=total(42.430s)" date="2025-10-05T16:04:08.046" /><!-- duration: 21ms -->
+                <step title="bash: no io activity for 603s, prev-cpu=39.030s, current-cpu=42.430s" date="2025-10-05T16:04:08.086" /><!-- duration: 26ms -->
+                <step title="Cpu: rsync(1181,19.190s)+rsync(1180,4.940s)+rsync(1179,8.350s)+build.sh(877,0.150s)+oryx(850,12.820s)+tee(851,0.010s)+bash(849,0.000s)=total(45.460s)" date="2025-10-05T16:05:08.188" /><!-- duration: 27ms -->
+                <step title="bash: no io activity for 664s, prev-cpu=42.430s, current-cpu=45.460s" date="2025-10-05T16:05:08.241" /><!-- duration: 16ms -->
+              </step><!-- duration: 970041ms -->
+              <step title="Using GenericDeploymentLogParser" date="2025-10-05T16:05:57.985" /><!-- duration: 7ms -->
+              <step title="Modified file to trigger a restart of the app container." date="2025-10-05T16:05:59.608" /><!-- duration: 14ms -->
+              <step title="Skip function trigger and logicapp sync because function is not enabled." date="2025-10-05T16:05:59.661" /><!-- duration: 10ms -->
+            </step><!-- duration: 974545ms -->
+          </step><!-- duration: 974962ms -->
+          <step title="Cleaning up temp files" date="2025-10-05T16:06:00.863" /><!-- duration: 9779ms -->
+          <step title="Cleaning up temp files" date="2025-10-05T16:06:10.654" /><!-- duration: 524ms -->
+          <step title="Reloading status file with latest updates" date="2025-10-05T16:06:11.214" >
+            <step title="WebHooksManager.PublishEventAsync: PostDeployment" date="2025-10-05T16:06:11.222" /><!-- duration: 332ms -->
+          </step><!-- duration: 346ms -->
+          <step title="Cleaning up temporary deployment - fetch deployment was successful" date="2025-10-05T16:06:11.577" /><!-- duration: 6ms -->
+        </step><!-- duration: 985989ms -->
+      </step><!-- duration: 988104ms -->
