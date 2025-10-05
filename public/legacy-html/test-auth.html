@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test Authentification CIP FARO</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 2rem;
+      }
+      .test-section {
+        margin: 1rem 0;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+      }
+      .success {
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+      }
+      .error {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+      }
+      button {
+        padding: 0.5rem 1rem;
+        margin: 0.5rem;
+        cursor: pointer;
+      }
+      .admin {
+        background-color: #007bff;
+        color: white;
+      }
+      .formateur {
+        background-color: #28a745;
+        color: white;
+      }
+      .stagiaire {
+        background-color: #17a2b8;
+        color: white;
+      }
+      .logout {
+        background-color: #dc3545;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🧪 Test des Espaces Utilisateurs CIP FARO</h1>
+
+    <div class="test-section">
+      <h2>📋 Instructions de test</h2>
+      <p>
+        Cliquez sur les boutons ci-dessous pour tester automatiquement les
+        connexions :
+      </p>
+      <ul>
+        <li>
+          <strong>Admin :</strong> admin@cipfaro-formations.com / admin123
+        </li>
+        <li>
+          <strong>Formateur :</strong> formateur@cipfaro-formations.com /
+          formateur123
+        </li>
+        <li>
+          <strong>Stagiaire :</strong> stagiaire@cipfaro-formations.com /
+          stagiaire123
+        </li>
+      </ul>
+    </div>
+
+    <div class="test-section">
+      <h2>🔐 Tests de connexion automatiques</h2>
+      <button class="admin" onclick="testAdminLogin()">
+        Test Connexion Admin
+      </button>
+      <button class="formateur" onclick="testFormateurLogin()">
+        Test Connexion Formateur
+      </button>
+      <button class="stagiaire" onclick="testStagiaireLogin()">
+        Test Connexion Stagiaire
+      </button>
+      <button class="logout" onclick="testLogout()">Déconnexion</button>
+    </div>
+
+    <div class="test-section">
+      <h2>📊 Résultats</h2>
+      <div id="results"></div>
+    </div>
+
+    <script>
+      const baseUrl = "http://localhost:5173";
+
+      function log(message, isSuccess = true) {
+        const results = document.getElementById("results");
+        const div = document.createElement("div");
+        div.className = isSuccess ? "success" : "error";
+        div.style.margin = "0.5rem 0";
+        div.style.padding = "0.5rem";
+        div.innerHTML = `${new Date().toLocaleTimeString()} - ${message}`;
+        results.appendChild(div);
+      }
+
+      function simulateLogin(email, password, role) {
+        // Simulation de la connexion (comme dans Connexion.jsx)
+        localStorage.setItem("userRole", role);
+        localStorage.setItem("userEmail", email);
+        log(`✅ Connexion simulée pour ${role}: ${email}`, true);
+
+        // Test de redirection
+        setTimeout(() => {
+          const targetUrl = `${baseUrl}/${role}`;
+          window.open(targetUrl, "_blank");
+          log(`🔗 Ouverture de l'espace ${role}: ${targetUrl}`, true);
+        }, 1000);
+      }
+
+      function testAdminLogin() {
+        log("🔄 Test de connexion Administrateur...", true);
+        simulateLogin("admin@cipfaro-formations.com", "admin123", "admin");
+      }
+
+      function testFormateurLogin() {
+        log("🔄 Test de connexion Formateur...", true);
+        simulateLogin(
+          "formateur@cipfaro-formations.com",
+          "formateur123",
+          "formateur"
+        );
+      }
+
+      function testStagiaireLogin() {
+        log("🔄 Test de connexion Stagiaire...", true);
+        simulateLogin(
+          "stagiaire@cipfaro-formations.com",
+          "stagiaire123",
+          "stagiaire"
+        );
+      }
+
+      function testLogout() {
+        localStorage.removeItem("userRole");
+        localStorage.removeItem("userEmail");
+        log("🚪 Déconnexion effectuée - localStorage vidé", true);
+
+        setTimeout(() => {
+          window.open(`${baseUrl}/admin`, "_blank");
+          log(
+            "🔗 Test redirection admin sans auth (devrait rediriger vers /connexion)",
+            true
+          );
+        }, 1000);
+      }
+
+      // Test initial
+      log(
+        "🚀 Page de test chargée - Prêt pour les tests d'authentification",
+        true
+      );
+    </script>
+  </body>
+</html>

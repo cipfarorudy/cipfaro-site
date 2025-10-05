@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>CipFaroApi</RootNamespace>
+    <AssemblyName>CipFaroApi</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Packages pour la base de données -->
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.2" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.0" />
+    
+    <!-- Packages pour l'authentification et sécurité -->
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.0.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.3" />
+    
+    <!-- Packages pour la sérialisation JSON -->
+    <PackageReference Include="System.Text.Json" Version="8.0.0" />
+    
+    <!-- Packages pour CORS et configuration -->
+    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
+    
+    <!-- Packages pour Application Insights (monitoring) -->
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
+    
+    <!-- Packages pour Swagger/OpenAPI (documentation API) -->
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+</Project>

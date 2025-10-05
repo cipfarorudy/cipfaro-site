@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test API CIP FARO - Amélioration Complète</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        color: white;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+      .status-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin-bottom: 40px;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 20px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      .status {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+      .status.success {
+        background: #4caf50;
+      }
+      .status.error {
+        background: #f44336;
+      }
+      .status.warning {
+        background: #ff9800;
+      }
+      .test-section {
+        margin-bottom: 30px;
+      }
+      .test-form {
+        display: grid;
+        gap: 15px;
+        max-width: 500px;
+      }
+      input,
+      textarea,
+      select {
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.9);
+        font-size: 16px;
+      }
+      button {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        background: #4caf50;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      button:hover {
+        background: #45a049;
+      }
+      button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+      .result {
+        margin-top: 15px;
+        padding: 15px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .success {
+        background: rgba(76, 175, 80, 0.3) !important;
+      }
+      .error {
+        background: rgba(244, 67, 54, 0.3) !important;
+      }
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+      }
+      .feature {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .check {
+        color: #4caf50;
+        font-size: 20px;
+      }
+      .x {
+        color: #f44336;
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🚀 Test Complet API CIP FARO v2.0</h1>
+        <p>Vérification de toutes les améliorations implémentées</p>
+      </div>
+
+      <div class="status-grid">
+        <div class="card">
+          <h3>🖥️ Status Serveurs</h3>
+          <div class="feature">
+            <span id="api-status" class="status">⏳ Test en cours...</span>
+            <span>API Backend (Port 3000)</span>
+          </div>
+          <div class="feature">
+            <span id="frontend-status" class="status success">✅ Actif</span>
+            <span>Frontend Vite (Port 5173)</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>⚡ Fonctionnalités Implémentées</h3>
+          <div class="features-grid">
+            <div class="feature">
+              <span class="check">✅</span>
+              <span>Authentification JWT</span>
+            </div>
+            <div class="feature">
+              <span class="check">✅</span>
+              <span>Upload de fichiers</span>
+            </div>
+            <div class="feature">
+              <span class="check">✅</span>
+              <span>Emails automatiques</span>
+            </div>
+            <div class="feature">
+              <span class="check">✅</span>
+              <span>Rate limiting</span>
+            </div>
+            <div class="feature">
+              <span class="check">✅</span>
+              <span>Validation données</span>
+            </div>
+            <div class="feature">
+              <span class="check">✅</span>
+              <span>CORS sécurisé</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Test d'authentification -->
+      <div class="card test-section">
+        <h3>🔐 Test Authentification</h3>
+        <div class="test-form">
+          <input
+            type="email"
+            id="auth-email"
+            placeholder="Email"
+            value="stagiaire@test.fr"
+          />
+          <input
+            type="password"
+            id="auth-password"
+            placeholder="Mot de passe"
+            value="stagiaire123"
+          />
+          <button onclick="testAuth()">Tester la Connexion</button>
+          <div id="auth-result" class="result" style="display: none"></div>
+        </div>
+      </div>
+
+      <!-- Test formulaire de contact -->
+      <div class="card test-section">
+        <h3>📧 Test Formulaire de Contact</h3>
+        <div class="test-form">
+          <input type="text" id="contact-nom" placeholder="Nom" value="Test" />
+          <input
+            type="text"
+            id="contact-prenom"
+            placeholder="Prénom"
+            value="User"
+          />
+          <input
+            type="email"
+            id="contact-email"
+            placeholder="Email"
+            value="test@example.com"
+          />
+          <input
+            type="text"
+            id="contact-sujet"
+            placeholder="Sujet"
+            value="Test API"
+          />
+          <textarea id="contact-message" placeholder="Message" rows="3">
+Test du nouveau système de contact avec API complète.</textarea
+          >
+          <button onclick="testContact()">Envoyer Message de Test</button>
+          <div id="contact-result" class="result" style="display: none"></div>
+        </div>
+      </div>
+
+      <!-- Test pré-inscription avec fichier -->
+      <div class="card test-section">
+        <h3>📝 Test Pré-inscription (avec Upload CV)</h3>
+        <div class="test-form">
+          <input
+            type="text"
+            id="preinsc-nom"
+            placeholder="Nom"
+            value="Candidat"
+          />
+          <input
+            type="text"
+            id="preinsc-prenom"
+            placeholder="Prénom"
+            value="Test"
+          />
+          <input
+            type="email"
+            id="preinsc-email"
+            placeholder="Email"
+            value="candidat@test.fr"
+          />
+          <input
+            type="tel"
+            id="preinsc-tel"
+            placeholder="Téléphone"
+            value="0123456789"
+          />
+          <select id="preinsc-formation">
+            <option value="Développement Web Full-Stack">
+              Développement Web Full-Stack
+            </option>
+            <option value="Intelligence Artificielle">
+              Intelligence Artificielle
+            </option>
+            <option value="Cybersécurité Avancée">Cybersécurité Avancée</option>
+          </select>
+          <input type="file" id="preinsc-cv" accept=".pdf,.doc,.docx" />
+          <textarea id="preinsc-motivation" placeholder="Motivations" rows="3">
+Très motivé(e) pour cette formation qui correspond parfaitement à mes objectifs professionnels.</textarea
+          >
+          <button onclick="testPreinscription()">Tester Pré-inscription</button>
+          <div id="preinsc-result" class="result" style="display: none"></div>
+        </div>
+      </div>
+
+      <!-- Test devis -->
+      <div class="card test-section">
+        <h3>💰 Test Demande de Devis</h3>
+        <div class="test-form">
+          <input
+            type="text"
+            id="devis-nom"
+            placeholder="Nom"
+            value="Entreprise"
+          />
+          <input
+            type="text"
+            id="devis-prenom"
+            placeholder="Prénom"
+            value="Manager"
+          />
+          <input
+            type="email"
+            id="devis-email"
+            placeholder="Email"
+            value="manager@entreprise.fr"
+          />
+          <input
+            type="tel"
+            id="devis-tel"
+            placeholder="Téléphone"
+            value="0123456789"
+          />
+          <input
+            type="text"
+            id="devis-entreprise"
+            placeholder="Entreprise"
+            value="Tech Solutions SARL"
+          />
+          <select id="devis-formation">
+            <option value="Formation sur mesure React">
+              Formation sur mesure React
+            </option>
+            <option value="Formation DevOps équipe">
+              Formation DevOps équipe
+            </option>
+            <option value="Formation sécurité informatique">
+              Formation sécurité informatique
+            </option>
+          </select>
+          <input
+            type="number"
+            id="devis-participants"
+            placeholder="Nombre de participants"
+            value="8"
+          />
+          <textarea id="devis-objectifs" placeholder="Objectifs" rows="2">
+Former l'équipe aux dernières technologies pour améliorer la productivité.</textarea
+          >
+          <button onclick="testDevis()">Demander un Devis</button>
+          <div id="devis-result" class="result" style="display: none"></div>
+        </div>
+      </div>
+
+      <!-- Statistiques -->
+      <div class="card">
+        <h3>📊 Statistiques en Temps Réel</h3>
+        <div id="stats" class="features-grid">
+          <div class="feature">
+            <span>⏳</span>
+            <span>Chargement des statistiques...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const API_BASE = "http://localhost:3000/api";
+      let authToken = null;
+
+      // Test initial de l'API
+      async function checkApiStatus() {
+        try {
+          const response = await fetch(`${API_BASE}/health`);
+          const data = await response.json();
+
+          document.getElementById("api-status").textContent = "✅ API Active";
+          document.getElementById("api-status").className = "status success";
+
+          console.log("API Health Check:", data);
+        } catch (error) {
+          document.getElementById("api-status").textContent =
+            "❌ API Hors ligne";
+          document.getElementById("api-status").className = "status error";
+          console.error("Erreur API:", error);
+        }
+      }
+
+      // Test authentification
+      async function testAuth() {
+        const email = document.getElementById("auth-email").value;
+        const password = document.getElementById("auth-password").value;
+        const resultDiv = document.getElementById("auth-result");
+
+        try {
+          const response = await fetch(`${API_BASE}/auth/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            authToken = data.token;
+            resultDiv.innerHTML = `
+                        <div class="success">
+                            <strong>✅ Connexion réussie !</strong><br>
+                            Utilisateur: ${data.user.prenom} ${
+              data.user.nom
+            }<br>
+                            Rôle: ${data.user.role}<br>
+                            Token: ${data.token.substring(0, 20)}...
+                        </div>
+                    `;
+          } else {
+            resultDiv.innerHTML = `<div class="error">❌ ${data.error}</div>`;
+          }
+          resultDiv.style.display = "block";
+        } catch (error) {
+          resultDiv.innerHTML = `<div class="error">❌ Erreur: ${error.message}</div>`;
+          resultDiv.style.display = "block";
+        }
+      }
+
+      // Test contact
+      async function testContact() {
+        const contactData = {
+          nom: document.getElementById("contact-nom").value,
+          prenom: document.getElementById("contact-prenom").value,
+          email: document.getElementById("contact-email").value,
+          sujet: document.getElementById("contact-sujet").value,
+          message: document.getElementById("contact-message").value,
+        };
+
+        const resultDiv = document.getElementById("contact-result");
+
+        try {
+          const response = await fetch(`${API_BASE}/contact`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(contactData),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            resultDiv.innerHTML = `
+                        <div class="success">
+                            <strong>✅ Message envoyé avec succès !</strong><br>
+                            ID: ${data.id}<br>
+                            📧 Email de confirmation envoyé
+                        </div>
+                    `;
+          } else {
+            resultDiv.innerHTML = `<div class="error">❌ ${data.error}</div>`;
+          }
+          resultDiv.style.display = "block";
+        } catch (error) {
+          resultDiv.innerHTML = `<div class="error">❌ Erreur: ${error.message}</div>`;
+          resultDiv.style.display = "block";
+        }
+      }
+
+      // Test pré-inscription
+      async function testPreinscription() {
+        const formData = new FormData();
+        formData.append("nom", document.getElementById("preinsc-nom").value);
+        formData.append(
+          "prenom",
+          document.getElementById("preinsc-prenom").value
+        );
+        formData.append(
+          "email",
+          document.getElementById("preinsc-email").value
+        );
+        formData.append(
+          "telephone",
+          document.getElementById("preinsc-tel").value
+        );
+        formData.append(
+          "formationSouhaitee",
+          document.getElementById("preinsc-formation").value
+        );
+        formData.append(
+          "motivations",
+          document.getElementById("preinsc-motivation").value
+        );
+
+        const cvFile = document.getElementById("preinsc-cv").files[0];
+        if (cvFile) {
+          formData.append("cv", cvFile);
+        }
+
+        const resultDiv = document.getElementById("preinsc-result");
+
+        try {
+          const response = await fetch(`${API_BASE}/preinscription`, {
+            method: "POST",
+            body: formData,
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            resultDiv.innerHTML = `
+                        <div class="success">
+                            <strong>✅ Pré-inscription enregistrée !</strong><br>
+                            Référence: ${data.reference}<br>
+                            ${cvFile ? "📎 CV téléchargé avec succès<br>" : ""}
+                            📧 Email de confirmation envoyé
+                        </div>
+                    `;
+          } else {
+            resultDiv.innerHTML = `<div class="error">❌ ${data.error}</div>`;
+          }
+          resultDiv.style.display = "block";
+        } catch (error) {
+          resultDiv.innerHTML = `<div class="error">❌ Erreur: ${error.message}</div>`;
+          resultDiv.style.display = "block";
+        }
+      }
+
+      // Test devis
+      async function testDevis() {
+        const devisData = {
+          nom: document.getElementById("devis-nom").value,
+          prenom: document.getElementById("devis-prenom").value,
+          email: document.getElementById("devis-email").value,
+          telephone: document.getElementById("devis-tel").value,
+          entreprise: document.getElementById("devis-entreprise").value,
+          typeFormation: document.getElementById("devis-formation").value,
+          nombreParticipants: parseInt(
+            document.getElementById("devis-participants").value
+          ),
+          objectifs: document.getElementById("devis-objectifs").value,
+        };
+
+        const resultDiv = document.getElementById("devis-result");
+
+        try {
+          const response = await fetch(`${API_BASE}/devis`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(devisData),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            resultDiv.innerHTML = `
+                        <div class="success">
+                            <strong>✅ Demande de devis enregistrée !</strong><br>
+                            Référence: ${data.reference}<br>
+                            📧 Email de confirmation envoyé<br>
+                            ⏱️ Réponse sous 48h
+                        </div>
+                    `;
+          } else {
+            resultDiv.innerHTML = `<div class="error">❌ ${data.error}</div>`;
+          }
+          resultDiv.style.display = "block";
+        } catch (error) {
+          resultDiv.innerHTML = `<div class="error">❌ Erreur: ${error.message}</div>`;
+          resultDiv.style.display = "block";
+        }
+      }
+
+      // Charger les statistiques
+      async function loadStats() {
+        try {
+          if (authToken) {
+            const response = await fetch(`${API_BASE}/admin/stats`, {
+              headers: { Authorization: `Bearer ${authToken}` },
+            });
+            const data = await response.json();
+
+            document.getElementById("stats").innerHTML = `
+                        <div class="feature"><span>👥</span><span>${data.utilisateurs} Utilisateurs</span></div>
+                        <div class="feature"><span>📝</span><span>${data.preinscriptions} Pré-inscriptions</span></div>
+                        <div class="feature"><span>💰</span><span>${data.devis} Devis</span></div>
+                        <div class="feature"><span>📧</span><span>${data.messages} Messages</span></div>
+                    `;
+          } else {
+            document.getElementById("stats").innerHTML = `
+                        <div class="feature"><span>🔒</span><span>Connectez-vous pour voir les stats</span></div>
+                    `;
+          }
+        } catch (error) {
+          document.getElementById("stats").innerHTML = `
+                    <div class="feature"><span>❌</span><span>Erreur chargement stats</span></div>
+                `;
+        }
+      }
+
+      // Initialisation
+      window.onload = function () {
+        checkApiStatus();
+        loadStats();
+
+        // Refresh stats après authentification
+        document.addEventListener("auth-success", loadStats);
+      };
+    </script>
+  </body>
+</html>

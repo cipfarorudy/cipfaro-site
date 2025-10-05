@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Connexion Stagiaire - CIP FARO</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+        background: #f5f5f5;
+      }
+
+      .test-section {
+        background: white;
+        padding: 2rem;
+        margin: 1rem 0;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        color: #27ae60;
+        text-align: center;
+      }
+
+      h2 {
+        color: #2c3e50;
+        border-bottom: 2px solid #27ae60;
+        padding-bottom: 0.5rem;
+      }
+
+      button {
+        background: #27ae60;
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        margin: 0.5rem;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+      }
+
+      button:hover {
+        background: #229954;
+      }
+
+      button.logout {
+        background: #e74c3c;
+      }
+
+      .result {
+        padding: 1rem;
+        margin: 0.5rem 0;
+        border-radius: 4px;
+        border-left: 4px solid #27ae60;
+      }
+
+      .success {
+        background: #d4edda;
+        border-color: #27ae60;
+        color: #155724;
+      }
+
+      .error {
+        background: #f8d7da;
+        border-color: #e74c3c;
+        color: #721c24;
+      }
+
+      .info {
+        background: #e8f4fd;
+        border-color: #3498db;
+        color: #0c5460;
+      }
+
+      .account-info {
+        background: #e8f5e8;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin: 1rem 0;
+        border: 2px solid #27ae60;
+      }
+
+      .status {
+        padding: 1rem;
+        border-radius: 4px;
+        margin: 1rem 0;
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .status.connected {
+        background: #d4edda;
+        color: #155724;
+        border: 2px solid #27ae60;
+      }
+
+      .status.disconnected {
+        background: #fff3cd;
+        color: #856404;
+        border: 2px solid #ffc107;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🎓 Test Connexion Stagiaire</h1>
+
+    <div class="test-section">
+      <h2>📋 Informations de connexion</h2>
+      <div class="account-info">
+        <h3>🎓 Compte Stagiaire de Test</h3>
+        <p><strong>Email :</strong> stagiaire@cipfaro-formations.com</p>
+        <p><strong>Mot de passe :</strong> stagiaire123</p>
+        <p><strong>Espace accessible :</strong> /stagiaire</p>
+        <p><strong>Rôle :</strong> Stagiaire</p>
+      </div>
+
+      <div id="authStatus" class="status disconnected">❌ Non connecté</div>
+    </div>
+
+    <div class="test-section">
+      <h2>🔐 Tests de connexion</h2>
+      <button onclick="loginStagiaire()">
+        🔑 Se connecter en tant que Stagiaire
+      </button>
+      <button onclick="testAccess()">
+        🏠 Tester l'accès à l'espace stagiaire
+      </button>
+      <button onclick="testProtectedAccess()">
+        🔒 Tester accès espace admin (interdit)
+      </button>
+      <button class="logout" onclick="logout()">🚪 Se déconnecter</button>
+    </div>
+
+    <div class="test-section">
+      <h2>🧪 Navigation directe</h2>
+      <button onclick="openPage('/connexion')">Page Connexion</button>
+      <button onclick="openPage('/stagiaire')">Espace Stagiaire</button>
+      <button onclick="openPage('/formations')">Catalogue Formations</button>
+      <button onclick="openPage('/')">Page d'Accueil</button>
+    </div>
+
+    <div class="test-section">
+      <h2>📊 Résultats des tests</h2>
+      <div id="results"></div>
+    </div>
+
+    <script>
+      const baseUrl = window.location.origin;
+      const stagiaireAccount = {
+        email: "stagiaire@cipfaro-formations.com",
+        password: "stagiaire123",
+        role: "stagiaire",
+        name: "Marie Dupont (Test)",
+      };
+
+      function log(message, type = "success") {
+        const results = document.getElementById("results");
+        const div = document.createElement("div");
+        div.className = `result ${type}`;
+        div.innerHTML = `${new Date().toLocaleTimeString()} - ${message}`;
+        results.appendChild(div);
+        results.scrollTop = results.scrollHeight;
+      }
+
+      function updateAuthStatus() {
+        const statusDiv = document.getElementById("authStatus");
+        const token = localStorage.getItem("cipfaro_auth_token");
+        const userInfo = localStorage.getItem("cipfaro_user_info");
+
+        if (token && userInfo) {
+          try {
+            const user = JSON.parse(userInfo);
+            statusDiv.className = "status connected";
+            statusDiv.innerHTML = `✅ Connecté en tant que: ${user.role} (${user.email})`;
+            return true;
+          } catch {
+            statusDiv.className = "status disconnected";
+            statusDiv.innerHTML = "❌ Données corrompues";
+            return false;
+          }
+        } else {
+          statusDiv.className = "status disconnected";
+          statusDiv.innerHTML = "❌ Non connecté";
+          return false;
+        }
+      }
+
+      function loginStagiaire() {
+        log("🔄 Connexion en tant que stagiaire...", "info");
+
+        try {
+          // Simuler la connexion en définissant les données localStorage
+          const token = `stagiaire_token_${Date.now()}`;
+          const userInfo = {
+            email: stagiaireAccount.email,
+            role: stagiaireAccount.role,
+            name: stagiaireAccount.name,
+            permissions: ["profile", "formations"],
+            loginTime: new Date().toISOString(),
+          };
+
+          localStorage.setItem("cipfaro_auth_token", token);
+          localStorage.setItem("cipfaro_user_info", JSON.stringify(userInfo));
+
+          log("✅ Connexion stagiaire réussie !");
+          log(`ℹ️ Token généré: ${token.substring(0, 20)}...`);
+          log(`ℹ️ Permissions: ${userInfo.permissions.join(", ")}`);
+
+          updateAuthStatus();
+        } catch (error) {
+          log(`❌ Erreur lors de la connexion: ${error.message}`, "error");
+        }
+      }
+
+      function testAccess() {
+        const isConnected = updateAuthStatus();
+
+        if (!isConnected) {
+          log("⚠️ Vous devez être connecté pour tester l'accès", "error");
+          return;
+        }
+
+        log("🔄 Test d'accès à l'espace stagiaire...", "info");
+        const targetUrl = `${baseUrl}/stagiaire`;
+        window.open(targetUrl, "_blank");
+        log(`🔗 Ouverture de l'espace stagiaire: ${targetUrl}`);
+      }
+
+      function testProtectedAccess() {
+        log("🔄 Test d'accès à un espace interdit (admin)...", "info");
+        const targetUrl = `${baseUrl}/admin`;
+        window.open(targetUrl, "_blank");
+        log(
+          `🔗 Tentative d'accès admin (doit être refusé): ${targetUrl}`,
+          "info"
+        );
+        log(
+          "⚠️ Si vous accédez à l'espace admin, il y a un problème de sécurité !",
+          "error"
+        );
+      }
+
+      function logout() {
+        log("🔄 Déconnexion...", "info");
+
+        try {
+          localStorage.removeItem("cipfaro_auth_token");
+          localStorage.removeItem("cipfaro_user_info");
+
+          log("✅ Déconnexion réussie");
+          updateAuthStatus();
+
+          // Tester l'accès après déconnexion
+          setTimeout(() => {
+            log("🔄 Test d'accès après déconnexion...", "info");
+            const targetUrl = `${baseUrl}/stagiaire`;
+            window.open(targetUrl, "_blank");
+            log(
+              "🔗 Tentative d'accès après déconnexion (doit rediriger vers /connexion)"
+            );
+          }, 1000);
+        } catch (error) {
+          log(`❌ Erreur lors de la déconnexion: ${error.message}`, "error");
+        }
+      }
+
+      function openPage(path) {
+        log(`🔄 Ouverture de ${path}...`, "info");
+        const targetUrl = `${baseUrl}${path}`;
+        window.open(targetUrl, "_blank");
+        log(`🔗 Page ouverte: ${targetUrl}`);
+      }
+
+      // Vérifier l'état au chargement
+      window.addEventListener("load", () => {
+        updateAuthStatus();
+        log("🚀 Test de connexion stagiaire initialisé");
+        log("📝 Suivez les instructions pour tester l'authentification");
+      });
+
+      // Mettre à jour le statut toutes les 2 secondes
+      setInterval(updateAuthStatus, 2000);
+    </script>
+  </body>
+</html>

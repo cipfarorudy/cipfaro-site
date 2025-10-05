@@ -1,4 +1,4 @@
-// src/data/formations_completes.js - TOUTES les formations CIP FARO officielles
+// src/data/formations.js - Catalogue formations CIP FARO 2025 actualisé
 export const formations = [
   // 1) TP Conseiller en Insertion Professionnelle (CIP) - Code: 11O2202749
   {
@@ -19,8 +19,9 @@ export const formations = [
     duree: "840 heures",
     modalites: "Présentiel / distanciel (FOAD), ateliers, mises en situation",
     delais_acces: "Sous 30 jours après validation des prérequis et financement",
-    tarifs: "Individuel : 5 550 € TTC — Groupe : 4 750 € TTC (par participant)",
-    contacts: "secretariat@cipfaro-formations.com",
+    tarifs:
+      "Individuel : 6 200 € TTC — CPF/France Travail : financement possible",
+    contacts: "secretariat@cipfaro-formations.com | 0590 xxx xxx",
     methodes_mobilisees:
       "Apports théoriques, études de cas, jeux de rôle, plateformes numériques",
     modalites_evaluation:
@@ -51,9 +52,8 @@ export const formations = [
     duree: "910 heures",
     modalites: "Présentiel / FOAD, ateliers, co-animation, classe virtuelle",
     delais_acces: "Sous 30 jours après validation des prérequis et financement",
-    tarifs:
-      "Individuel : 13 650 € TTC — Groupe : 8 190 € TTC (par participant)",
-    contacts: "secretariat@cipfaro-formations.com",
+    tarifs: "Individuel : 14 500 € TTC — CPF/OPCO : financement possible",
+    contacts: "secretariat@cipfaro-formations.com | 0590 xxx xxx",
     methodes_mobilisees:
       "Pédagogie active, scénarisation, outils numériques (LMS, H5P, SCORM)",
     modalites_evaluation:
@@ -611,6 +611,128 @@ export const formations = [
     debouches: "Certification reconnue, autonomie entrepreneuriale",
     passerelles: "Vers spécialisations sectorielles, formations avancées",
     blocs_competences: [],
+    etat: "valide",
+  },
+
+  // 21) NOUVEAU 2025 - Spécialiste IA Générative et Prompt Engineering
+  {
+    slug: "specialiste-ia-generative-prompts",
+    code_officiel: "11O2500401",
+    titre: "Spécialiste IA Générative et Prompt Engineering",
+    certifiante: true,
+    rncp: "EN COURS",
+    certificateur: "France Compétences",
+    date_enregistrement: "2025-01-01",
+    objectifs: [
+      "Maîtriser les principaux outils d'IA générative (ChatGPT, Claude, Midjourney, etc.)",
+      "Concevoir des prompts efficaces pour différents secteurs d'activité",
+      "Intégrer l'IA dans les processus métiers et optimiser la productivité",
+      "Former et accompagner les équipes dans l'adoption de l'IA",
+    ],
+    prerequis: "Culture numérique avancée, esprit analytique, créativité",
+    duree: "420 heures (3 mois)",
+    modalites:
+      "100% hands-on : labs IA, hackathons, projets clients réels, veille technologique",
+    delais_acces: "Sous 15 jours, formation en continu selon évolutions IA",
+    tarifs:
+      "Individuel : 5 900 € TTC — Entreprises : formations sur-mesure disponibles",
+    contacts: "ia@cipfaro-formations.com | 0590 xxx xxx",
+    methodes_mobilisees:
+      "APIs IA, no-code/low-code, éthique IA, mesure ROI, automation",
+    modalites_evaluation:
+      "Projets d'automatisation, audit IA entreprise, portfolio de prompts",
+    accessibilite_psh:
+      "IA comme assistance aux handicaps, interfaces adaptatives",
+    debouches:
+      "Prompt engineer, consultant IA, chef de projet transformation digitale",
+    passerelles: "Vers développement IA, data science, innovation numérique",
+    blocs_competences: [
+      "Prompt design",
+      "Intégration métier",
+      "Éthique et gouvernance IA",
+    ],
+    etat: "valide",
+  },
+
+  // 22) NOUVEAU 2025 - Conseiller en Cybersécurité et Protection des Données
+  {
+    slug: "conseiller-cybersecurite-rgpd",
+    code_officiel: "11O2500402",
+    titre: "Conseiller en Cybersécurité et Protection des Données (RGPD)",
+    certifiante: true,
+    rncp: "EN COURS",
+    certificateur: "Ministère du Travail",
+    date_enregistrement: "2025-03-01",
+    objectifs: [
+      "Évaluer et prévenir les risques cybersécurité en entreprise",
+      "Assurer la conformité RGPD et protection des données personnelles",
+      "Sensibiliser et former les équipes aux bonnes pratiques de sécurité",
+      "Gérer les incidents de sécurité et les violations de données",
+    ],
+    prerequis:
+      "Niveau Bac+2 en informatique ou expérience IT, bases en droit numérique",
+    duree: "630 heures (4,5 mois)",
+    modalites:
+      "Hybride sécurisé : labs virtuels, simulations d'attaques, audits terrain",
+    delais_acces: "Sous 30 jours après validation sécuritaire du profil",
+    tarifs:
+      "Individuel : 8 900 € TTC — Entreprises/OPCO : tarifs préférentiels",
+    contacts: "cyber@cipfaro-formations.com | 0590 xxx xxx",
+    methodes_mobilisees:
+      "Cyber ranges, outils forensiques, cas d'usage réels, veille technologique",
+    modalites_evaluation:
+      "Audits pratiques, gestion d'incidents simulés, certification éthique",
+    accessibilite_psh: "Poste de travail sécurisé, logiciels d'assistance",
+    debouches:
+      "DPO, consultant cybersécurité, auditeur RGPD, responsable SI sécurisé",
+    passerelles:
+      "Vers certifications CISSP, CISA, spécialisations sectorielles",
+    blocs_competences: [
+      "Audit sécurité",
+      "Conformité RGPD",
+      "Gestion de crise cyber",
+    ],
+    etat: "valide",
+  },
+
+  // 23) NOUVEAU 2025 - Accompagnant en Transition Écologique et RSE
+  {
+    slug: "accompagnant-transition-ecologique-rse",
+    code_officiel: "11O2500403",
+    titre: "Accompagnant en Transition Écologique et RSE",
+    certifiante: true,
+    rncp: "EN COURS",
+    certificateur: "Ministère du Travail",
+    date_enregistrement: "2025-02-01",
+    objectifs: [
+      "Évaluer l'impact environnemental et social des organisations",
+      "Accompagner la mise en œuvre de stratégies de développement durable",
+      "Former aux écogestes et sensibiliser aux enjeux climatiques",
+      "Développer des projets d'économie circulaire et d'innovation verte",
+    ],
+    prerequis:
+      "Sensibilité écologique, niveau Bac, expérience associative ou professionnelle appréciée",
+    duree: "560 heures (4 mois)",
+    modalites:
+      "Terrain et numérique : audits in situ, projets collaboratifs, learning labs verts",
+    delais_acces: "Sous 30 jours, sessions alignées sur l'actualité climatique",
+    tarifs:
+      "Individuel : 7 800 € TTC — Financement transition professionnelle privilégié",
+    contacts: "transition@cipfaro-formations.com | 0590 xxx xxx",
+    methodes_mobilisees:
+      "Bilans carbone, outils RSE, serious games écologiques, partenariats locaux",
+    modalites_evaluation:
+      "Projets concrets, bilans d'impact, certification développement durable",
+    accessibilite_psh: "Supports écoresponsables, mobilité durable facilitée",
+    debouches:
+      "Consultant RSE, chargé de mission développement durable, coordinateur environnemental",
+    passerelles:
+      "Vers master environnement, certifications ISO 14001, économie sociale",
+    blocs_competences: [
+      "Diagnostic environnemental",
+      "Conduite du changement durable",
+      "Innovation verte",
+    ],
     etat: "valide",
   },
 ];

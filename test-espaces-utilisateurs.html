@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Espaces Utilisateurs - CIP FARO</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        background: #f5f5f5;
+      }
+
+      .test-section {
+        background: white;
+        padding: 2rem;
+        margin: 1rem 0;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        color: #e67e22;
+        text-align: center;
+      }
+
+      h2 {
+        color: #2c3e50;
+        border-bottom: 2px solid #e67e22;
+        padding-bottom: 0.5rem;
+      }
+
+      button {
+        background: #e67e22;
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        margin: 0.5rem;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+      }
+
+      button:hover {
+        background: #d35400;
+      }
+
+      button.logout {
+        background: #e74c3c;
+      }
+
+      button.admin {
+        background: #8e44ad;
+      }
+
+      button.formateur {
+        background: #3498db;
+      }
+
+      button.stagiaire {
+        background: #27ae60;
+      }
+
+      .result {
+        padding: 1rem;
+        margin: 0.5rem 0;
+        border-radius: 4px;
+        border-left: 4px solid #e67e22;
+      }
+
+      .success {
+        background: #d4edda;
+        border-color: #27ae60;
+        color: #155724;
+      }
+
+      .error {
+        background: #f8d7da;
+        border-color: #e74c3c;
+        color: #721c24;
+      }
+
+      .account-info {
+        background: #e8f4fd;
+        padding: 1rem;
+        border-radius: 4px;
+        margin: 1rem 0;
+      }
+
+      .account-info ul {
+        margin: 0;
+        padding-left: 1.5rem;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🧪 Test des Espaces Utilisateurs CIP FARO</h1>
+
+    <div class="test-section">
+      <h2>📋 Mode d'emploi</h2>
+      <p>
+        Ce test vérifie le fonctionnement des espaces utilisateurs avec les
+        comptes de test suivants :
+      </p>
+
+      <div class="grid">
+        <div class="account-info">
+          <h3>👨‍💼 Administrateur</h3>
+          <ul>
+            <li><strong>Email :</strong> admin@cipfaro-formations.com</li>
+            <li><strong>Mot de passe :</strong> admin123</li>
+            <li><strong>Accès :</strong> /admin</li>
+          </ul>
+        </div>
+
+        <div class="account-info">
+          <h3>👨‍🏫 Formateur</h3>
+          <ul>
+            <li><strong>Email :</strong> formateur@cipfaro-formations.com</li>
+            <li><strong>Mot de passe :</strong> formateur123</li>
+            <li><strong>Accès :</strong> /formateur</li>
+          </ul>
+        </div>
+
+        <div class="account-info">
+          <h3>🎓 Stagiaire</h3>
+          <ul>
+            <li><strong>Email :</strong> stagiaire@cipfaro-formations.com</li>
+            <li><strong>Mot de passe :</strong> stagiaire123</li>
+            <li><strong>Accès :</strong> /stagiaire</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="test-section">
+      <h2>🔐 Tests automatiques</h2>
+      <p>
+        Cliquez sur les boutons pour tester automatiquement l'authentification :
+      </p>
+
+      <button class="admin" onclick="testLogin('admin')">Test Admin</button>
+      <button class="formateur" onclick="testLogin('formateur')">
+        Test Formateur
+      </button>
+      <button class="stagiaire" onclick="testLogin('stagiaire')">
+        Test Stagiaire
+      </button>
+      <button class="logout" onclick="testLogout()">Test Déconnexion</button>
+    </div>
+
+    <div class="test-section">
+      <h2>🏠 Tests d'accès direct</h2>
+      <p>
+        Testez l'accès direct aux espaces (doit rediriger vers /connexion si non
+        connecté) :
+      </p>
+
+      <button onclick="testDirectAccess('/admin')">Accès direct Admin</button>
+      <button onclick="testDirectAccess('/formateur')">
+        Accès direct Formateur
+      </button>
+      <button onclick="testDirectAccess('/stagiaire')">
+        Accès direct Stagiaire
+      </button>
+      <button onclick="testDirectAccess('/connexion')">Page Connexion</button>
+    </div>
+
+    <div class="test-section">
+      <h2>📊 Résultats des tests</h2>
+      <div id="results"></div>
+    </div>
+
+    <script>
+      const baseUrl = window.location.origin;
+      const accounts = {
+        admin: {
+          email: "admin@cipfaro-formations.com",
+          password: "admin123",
+          role: "admin",
+          redirectTo: "/admin",
+        },
+        formateur: {
+          email: "formateur@cipfaro-formations.com",
+          password: "formateur123",
+          role: "formateur",
+          redirectTo: "/formateur",
+        },
+        stagiaire: {
+          email: "stagiaire@cipfaro-formations.com",
+          password: "stagiaire123",
+          role: "stagiaire",
+          redirectTo: "/stagiaire",
+        },
+      };
+
+      function log(message, isSuccess = true) {
+        const results = document.getElementById("results");
+        const div = document.createElement("div");
+        div.className = isSuccess ? "result success" : "result error";
+        div.innerHTML = `${new Date().toLocaleTimeString()} - ${message}`;
+        results.appendChild(div);
+        results.scrollTop = results.scrollHeight;
+      }
+
+      async function testLogin(accountType) {
+        const account = accounts[accountType];
+        log(`🔄 Test de connexion ${accountType.toUpperCase()}...`);
+
+        try {
+          // Simuler la connexion en définissant les données localStorage
+          localStorage.setItem(
+            "cipfaro_auth_token",
+            `test_token_${Date.now()}`
+          );
+          localStorage.setItem(
+            "cipfaro_user_info",
+            JSON.stringify({
+              email: account.email,
+              role: account.role,
+              name: `Test ${accountType}`,
+              permissions: ["test"],
+              loginTime: new Date().toISOString(),
+            })
+          );
+
+          log(`✅ Données d'authentification définies pour ${accountType}`);
+
+          // Ouvrir l'espace correspondant dans un nouvel onglet
+          setTimeout(() => {
+            const targetUrl = `${baseUrl}${account.redirectTo}`;
+            window.open(targetUrl, "_blank");
+            log(`🔗 Ouverture de l'espace ${accountType}: ${targetUrl}`);
+          }, 500);
+        } catch (error) {
+          log(`❌ Erreur lors du test ${accountType}: ${error.message}`, false);
+        }
+      }
+
+      function testLogout() {
+        log("🔄 Test de déconnexion...");
+
+        try {
+          localStorage.removeItem("cipfaro_auth_token");
+          localStorage.removeItem("cipfaro_user_info");
+          log("✅ Données d'authentification supprimées");
+
+          // Tester l'accès à un espace protégé (doit rediriger)
+          setTimeout(() => {
+            const targetUrl = `${baseUrl}/admin`;
+            window.open(targetUrl, "_blank");
+            log(
+              "🔗 Test d'accès après déconnexion (doit rediriger vers /connexion)"
+            );
+          }, 500);
+        } catch (error) {
+          log(`❌ Erreur lors de la déconnexion: ${error.message}`, false);
+        }
+      }
+
+      function testDirectAccess(path) {
+        log(`🔄 Test d'accès direct à ${path}...`);
+        const targetUrl = `${baseUrl}${path}`;
+        window.open(targetUrl, "_blank");
+        log(`🔗 Ouverture de ${path}: ${targetUrl}`);
+      }
+
+      // Vérifier l'état actuel au chargement
+      window.addEventListener("load", () => {
+        const token = localStorage.getItem("cipfaro_auth_token");
+        const userInfo = localStorage.getItem("cipfaro_user_info");
+
+        if (token && userInfo) {
+          try {
+            const user = JSON.parse(userInfo);
+            log(
+              `ℹ️ Utilisateur actuellement connecté: ${user.role} (${user.email})`
+            );
+          } catch {
+            log("⚠️ Données d'authentification corrompues détectées", false);
+          }
+        } else {
+          log("ℹ️ Aucun utilisateur connecté actuellement");
+        }
+      });
+    </script>
+  </body>
+</html>

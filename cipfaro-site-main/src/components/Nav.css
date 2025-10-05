@@ -1,0 +1,128 @@
+:root {
+  --text-color: #0f172a; /* slate-900 */
+  --bg-hover: #f1f5f9; /* slate-100 */
+  --bg-color: #ffffff;
+  --border-color: #e2e8f0; /* slate-200 */
+  --focus-color: #2563eb; /* blue-600 */
+}
+
+/* En-tête */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  background: #fff;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: inherit;
+}
+.logo-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+.logo-text {
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+/* NAV horizontale */
+.main-nav {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.main-nav > .nav-dropdown {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+
+.nav-link {
+  padding: 0.5rem 0.8rem;
+  text-decoration: none;
+  color: var(--text-color);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease;
+}
+.nav-link:hover {
+  background: var(--bg-hover);
+}
+
+/* Dropdown */
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+  flex-direction: column;
+  min-width: 220px;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+  margin-top: 6px;
+  padding: 0.5rem 0;
+  z-index: 1000;
+}
+.nav-dropdown.open .dropdown {
+  display: flex;
+}
+
+.dropdown li {
+  list-style: none;
+}
+.dropdown a {
+  display: block;
+  padding: 0.6rem 1rem;
+  text-decoration: none;
+  color: var(--text-color);
+  border-left: 3px solid transparent;
+}
+.dropdown a:hover {
+  background: var(--bg-hover);
+  border-left-color: var(--focus-color);
+}
+
+/* Accessibilité au clavier */
+.nav-link:focus,
+.dropdown a:focus {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Mobile: rester horizontal avec défilement si trop d’items */
+@media (max-width: 767px) {
+  .main-nav {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    max-width: 100%;
+  }
+  .main-nav > * {
+    flex: 0 0 auto;
+  }
+}

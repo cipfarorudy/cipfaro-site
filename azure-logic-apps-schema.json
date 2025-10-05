@@ -1,0 +1,52 @@
+{
+  "type": "object",
+  "properties": {
+    "entreprise": {
+      "type": "string",
+      "title": "Nom de l'entreprise",
+      "description": "Nom de l'entreprise qui dépose l'offre"
+    },
+    "titre": {
+      "type": "string",
+      "title": "Titre de l'offre",
+      "description": "Intitulé du poste ou du stage"
+    },
+    "type": {
+      "type": "string",
+      "title": "Type d'offre",
+      "description": "Type d'offre : emploi ou stage",
+      "enum": ["emploi", "stage"]
+    },
+    "description": {
+      "type": "string",
+      "title": "Description de l'offre",
+      "description": "Description détaillée du poste, missions, compétences requises"
+    },
+    "email": {
+      "type": "string",
+      "title": "Email de contact",
+      "description": "Adresse email de contact de l'entreprise",
+      "format": "email"
+    },
+    "dateSubmission": {
+      "type": "string",
+      "title": "Date de soumission",
+      "description": "Date et heure de soumission du formulaire",
+      "format": "date-time"
+    },
+    "timestamp": {
+      "type": "integer",
+      "title": "Timestamp Unix",
+      "description": "Timestamp Unix pour les tris et calculs"
+    }
+  },
+  "required": [
+    "entreprise",
+    "titre", 
+    "type",
+    "description",
+    "email",
+    "dateSubmission"
+  ],
+  "additionalProperties": false
+}

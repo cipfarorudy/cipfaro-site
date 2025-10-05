@@ -1,70 +1,108 @@
-
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Offres d'emploi</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; }
-        h1 { color: #333; }
-        table { width: 100%; border-collapse: collapse; margin-top: 1em; }
-        th, td { border: 1px solid #ccc; padding: 0.75em; text-align: left; }
-        th { background-color: #0078D4; color: white; }
-        tr:nth-child(even) { background-color: #f2f2f2; }
+      body {
+        font-family: Arial, sans-serif;
+        margin: 2em;
+        background-color: #f9f9f9;
+      }
+      h1 {
+        color: #333;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1em;
+      }
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 0.75em;
+        text-align: left;
+      }
+      th {
+        background-color: #0078d4;
+        color: white;
+      }
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+      .loading {
+        text-align: center;
+        color: #0078d4;
+        font-style: italic;
+      }
+      .error {
+        text-align: center;
+        color: #d63384;
+        background-color: #f8d7da;
+      }
+      .no-data {
+        text-align: center;
+        color: #6c757d;
+        font-style: italic;
+      }
+      .badge {
+        padding: 0.25em 0.5em;
+        border-radius: 4px;
+        font-size: 0.875em;
+        font-weight: bold;
+      }
+      .badge-emploi {
+        background-color: #28a745;
+        color: white;
+      }
+      .badge-stage {
+        background-color: #ffc107;
+        color: black;
+      }
+      .refresh-container {
+        margin-top: 2em;
+        text-align: center;
+      }
+      .refresh-btn {
+        padding: 0.5em 1em;
+        background-color: #0078d4;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .refresh-btn:hover {
+        background-color: #005fa3;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Liste des offres d'emploi</h1>
     <table>
-        <thead>
-            <tr>
-                <th>Entreprise</th>
-                <th>Titre</th>
-                <th>Type</th>
-                <th>Description</th>
-                <th>Email Contact</th>
-                <th>Date de Publication</th>
-            </tr>
-        </thead>
-        <tbody id="offres-body">
-            <!-- Les offres seront insérées ici dynamiquement -->
-        </tbody>
+      <thead>
+        <tr>
+          <th>Entreprise</th>
+          <th>Titre</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Email Contact</th>
+          <th>Date de Publication</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="6" class="loading">🔄 Chargement des offres...</td>
+        </tr>
+      </tbody>
     </table>
 
-    <script>
-        // Exemple de données simulées
-        const offres = [
-            {
-                Entreprise: "TechCorp",
-                Titre: "Développeur Web",
-                Type: "Emploi",
-                Description: "Développement d'applications web modernes.",
-                EmailContact: "contact@techcorp.com",
-                DatePublication: "2024-04-01"
-            },
-            {
-                Entreprise: "EduPlus",
-                Titre: "Stage en marketing digital",
-                Type: "Stage",
-                Description: "Participation à la stratégie de communication.",
-                EmailContact: "stage@eduplus.fr",
-                DatePublication: "2024-04-03"
-            }
-        ];
+    <div class="refresh-container">
+      <button onclick="chargerOffres()" class="refresh-btn">
+        🔄 Actualiser les offres
+      </button>
+    </div>
 
-        const tbody = document.getElementById("offres-body");
-        offres.forEach(offre => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${offre.Entreprise}</td>
-                <td>${offre.Titre}</td>
-                <td>${offre.Type}</td>
-                <td>${offre.Description}</td>
-                <td>${offre.EmailContact}</td>
-                <td>${offre.DatePublication}</td>
-            `;
-            tbody.appendChild(row);
-        });
-    </script>
-</body>
+    <script src="offres_dynamic_script.js"></script>
+  </body>
 </html>

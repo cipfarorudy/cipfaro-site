@@ -1,0 +1,33 @@
+# Azure CIP FARO Project Configuration
+
+name: cipfaro-site
+metadata:
+  template: cipfaro-site-template@1.0.0
+infra:
+  provider: bicep
+  
+services:
+  web:
+    project: "."
+    language: js
+    host: appservice
+
+hooks:
+  preprovision:
+    posix:
+      shell: sh
+      run: echo "Preparing to provision Azure resources..."
+    windows:
+      shell: pwsh
+      run: |
+        echo "Preparing to provision Azure resources for CIP FARO..."
+  
+  postdeploy:
+    posix:
+      shell: sh  
+      run: echo "Deployment completed! Your CIP FARO site is now live on Azure."
+    windows:
+      shell: pwsh
+      run: |
+        echo "Deployment completed! Your CIP FARO site is now live on Azure."
+        echo "Site URL: $(azd env get-values --output json | ConvertFrom-Json | Select-Object -ExpandProperty AZURE_APP_SERVICE_URL)"

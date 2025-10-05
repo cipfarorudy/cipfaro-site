@@ -1,0 +1,31 @@
+[
+  {
+    "slug": "formation-test",
+    "code_officiel": "TEST-001",
+    "titre": "Formation de test",
+    "certifiante": false,
+    "rncp": null,
+    "certificateur": null,
+    "date_enregistrement": null,
+    "objectifs": [
+      "Apprendre les bases de la formation",
+      "Comprendre les enjeux de la certification"
+    ],
+    "prerequis": "Aucun prérequis",
+    "duree": "35 heures",
+    "modalites": "Présentiel ou distanciel",
+    "delais_acces": "15 jours",
+    "tarifs": "Nous consulter",
+    "contacts": "contact@cipfaro.fr",
+    "methodes_mobilisees": "Méthodes actives et participatives",
+    "modalites_evaluation": "QCM et exercices pratiques",
+    "accessibilite_psh": "Accessible aux personnes en situation de handicap",
+    "debouches": "Poursuite d'études ou insertion professionnelle",
+    "passerelles": "Possibilité de VAE",
+    "blocs_competences": [
+      "Bloc 1 : Connaissances théoriques",
+      "Bloc 2 : Mise en pratique"
+    ],
+    "etat": "active"
+  }
+]

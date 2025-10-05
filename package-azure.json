@@ -1,0 +1,15 @@
+{
+  "name": "cipfaro-site-azure",
+  "version": "1.0.0",
+  "main": "server-azure.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server-azure.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
