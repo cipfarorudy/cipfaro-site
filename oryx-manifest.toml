@@ -1,0 +1,7 @@
+[build]
+platforms = ["nodejs"]
+nodejs_version = "20"
+
+[nodejs]
+version = "20"
+start_command = "node server-simple.js"
