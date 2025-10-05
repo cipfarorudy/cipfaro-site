@@ -1,0 +1,13 @@
+{
+  "name": "cipfaro-site",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node server-simple.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

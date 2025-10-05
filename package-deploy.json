@@ -1,0 +1,19 @@
+{
+  "name": "cipfaro-formations",
+  "version": "1.0.0",
+  "description": "Site web CIP FARO - Centre de formation professionnelle",
+  "main": "server-simple.js",
+  "scripts": {
+    "start": "node server-simple.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "author": "CIP FARO",
+  "license": "MIT",
+  "homepage": "https://cipfaro-formations.com"
+}
