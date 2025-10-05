@@ -14,6 +14,56 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+/* Barre de progression dynamique pour le devis */
+.progress-bar[data-width="0"] {
+  width: 0%;
+}
+.progress-bar[data-width="10"] {
+  width: 10%;
+}
+.progress-bar[data-width="20"] {
+  width: 20%;
+}
+.progress-bar[data-width="30"] {
+  width: 30%;
+}
+.progress-bar[data-width="40"] {
+  width: 40%;
+}
+.progress-bar[data-width="50"] {
+  width: 50%;
+}
+.progress-bar[data-width="60"] {
+  width: 60%;
+}
+.progress-bar[data-width="70"] {
+  width: 70%;
+}
+.progress-bar[data-width="80"] {
+  width: 80%;
+}
+.progress-bar[data-width="90"] {
+  width: 90%;
+}
+.progress-bar[data-width="100"] {
+  width: 100%;
+}
+
+/* Animations pour la page devis */
+.animation-delay-200 {
+  animation-delay: 0.2s;
+}
+
+.animation-delay-400 {
+  animation-delay: 0.4s;
+}
+
+/* Fallback pour les valeurs non exactes */
+.progress-bar {
+  width: 0%;
+  transition: width 0.7s ease-out;
+}
 header,
 footer {
   background: white;

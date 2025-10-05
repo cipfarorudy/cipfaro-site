@@ -135,7 +135,7 @@ export function Header() {
                 Se connecter
               </Button>
             </Link>
-            <Link to="/preinscription">
+            <Link to="/inscription">
               <Button size="sm">
                 S'inscrire
               </Button>
@@ -202,7 +202,7 @@ export function Header() {
                   Se connecter
                 </Button>
               </Link>
-              <Link to="/preinscription" onClick={() => setMobileMenuOpen(false)}>
+              <Link to="/inscription" onClick={() => setMobileMenuOpen(false)}>
                 <Button className="w-full">
                   S'inscrire
                 </Button>

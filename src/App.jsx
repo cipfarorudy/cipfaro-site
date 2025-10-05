@@ -16,6 +16,7 @@ const ApiTest = lazy(() => import('./pages/ApiTest.tsx'));
 
 // Lazy loading des pages secondaires
 const Preinscription = lazy(() => import('./pages/Preinscription.jsx'));
+const Inscription = lazy(() => import('./pages/Inscription.tsx'));
 const Sitemap = lazy(() => import('./pages/Sitemap.jsx'));
 const Financements = lazy(() => import('./pages/Financements.jsx'));
 const Indicateurs = lazy(() => import('./pages/Indicateurs.jsx'));
@@ -96,6 +97,7 @@ export default function App() {
             <Route path="/formations/:slug" element={<Formation />} />
             <Route path="/devis" element={<Devis />} />
             <Route path="/preinscription" element={<Preinscription />} />
+            <Route path="/inscription" element={<Inscription />} />
             <Route path="/financements" element={<Financements />} />
             <Route path="/indicateurs" element={<Indicateurs />} />
             <Route path="/accessibilite" element={<Accessibilite />} />
@@ -161,6 +163,9 @@ export default function App() {
                 </Link>
                 <Link to="/preinscription" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm">
                   Pré-inscription
+                </Link>
+                <Link to="/inscription" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm">
+                  S'inscrire
                 </Link>
                 <Link to="/devis" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm">
                   Demander un devis

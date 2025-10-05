@@ -34,7 +34,7 @@ export default function Home() {
               
               <div className="flex flex-wrap gap-4">
                 <Link 
-                  to="/preinscription" 
+                  to="/inscription" 
                   className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-3 rounded-full hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
                 >
                   🎯 S'inscrire maintenant

@@ -34,12 +34,108 @@ export default function Preinscription() {
   const [modalitesValidation, setModalitesValidation] = useState('')
   const [isSending, setIsSending] = useState(false)
 
-  // Calcul du pourcentage de completion
+  // États pour la validation et les micro-interactions
+  const [fieldValidation, setFieldValidation] = useState({})
+  const [focusedField, setFocusedField] = useState('')
+  const [recentlyCompleted, setRecentlyCompleted] = useState([])
+
+  // Calcul du pourcentage de completion et temps estimé
   const calculateProgress = () => {
     const requiredFields = [civilite, nom, prenom, dateNaissance, adresse, codePostal, ville, telephone, email, situationProfessionnelle, raisons, experience, niveau]
     const filledFields = requiredFields.filter(field => field && field.trim() !== '').length
-    return (filledFields / requiredFields.length) * 100
+    const progress = (filledFields / requiredFields.length) * 100
+    
+    // Calcul du temps estimé restant (basé sur 5 minutes total)
+    const timeRemaining = Math.max(0, Math.ceil((5 * (100 - progress)) / 100))
+    
+    return { progress, timeRemaining, completedFields: filledFields, totalFields: requiredFields.length }
   }
+
+  const { progress, timeRemaining, completedFields, totalFields } = calculateProgress()
+
+  // Fonctions de validation temps réel
+  const validateField = (fieldName, value) => {
+    let isValid = true
+    let message = ''
+
+    switch (fieldName) {
+      case 'email':
+        isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || value === ''
+        message = isValid ? '' : 'Format email invalide'
+        break
+      case 'telephone':
+        isValid = /^[0-9\s+()-]{10,}$/.test(value) || value === ''
+        message = isValid ? '' : 'Numéro de téléphone invalide'
+        break
+      case 'codePostal':
+        isValid = /^[0-9]{5}$/.test(value) || value === ''
+        message = isValid ? '' : 'Code postal doit contenir 5 chiffres'
+        break
+      case 'nom':
+      case 'prenom':
+        isValid = value.length >= 2 || value === ''
+        message = isValid ? '' : 'Minimum 2 caractères requis'
+        break
+      default:
+        isValid = true
+    }
+
+    setFieldValidation(prev => ({
+      ...prev,
+      [fieldName]: { isValid, message, hasBeenTouched: value !== '' }
+    }))
+
+    return isValid
+  }
+
+  // Gestionnaire pour les changements de champs avec validation
+  const handleFieldChange = (fieldName, value, setter) => {
+    setter(value)
+    validateField(fieldName, value)
+    
+    // Ajouter aux champs récemment complétés si le champ devient valide
+    if (value && value.trim() !== '' && validateField(fieldName, value)) {
+      if (!recentlyCompleted.includes(fieldName)) {
+        setRecentlyCompleted(prev => [...prev, fieldName])
+        setTimeout(() => {
+          setRecentlyCompleted(prev => prev.filter(field => field !== fieldName))
+        }, 3000)
+      }
+    }
+  }
+
+  // Gestionnaire focus/blur pour les effets visuels
+  const handleFieldFocus = (fieldName) => {
+    setFocusedField(fieldName)
+  }
+
+  const handleFieldBlur = () => {
+    setFocusedField('')
+  }
+
+  // Composant pour l'indicateur de validation
+  const ValidationIndicator = ({ fieldName, showSuccess = true }) => {
+    const validation = fieldValidation[fieldName]
+    if (!validation || !validation.hasBeenTouched) return null
+
+    return (
+      <div className="flex items-center space-x-1 mt-1" role="status" aria-live="polite">
+        {validation.isValid && showSuccess ? (
+          <div className="flex items-center space-x-1 text-green-600">
+            <span className="text-sm" aria-hidden="true">✅</span>
+            <span className="text-xs font-medium">Validé</span>
+          </div>
+        ) : !validation.isValid && validation.message ? (
+          <div className="flex items-center space-x-1 text-red-600">
+            <span className="text-sm" aria-hidden="true">⚠️</span>
+            <span className="text-xs" role="alert">{validation.message}</span>
+          </div>
+        ) : null}
+      </div>
+    )
+  }
+
+
 
   // Génération du PDF
   const generatePDF = () => {
@@ -144,10 +240,10 @@ export default function Preinscription() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-4">
+      {/* Hero Header */}
+      <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 shadow-lg border-b border-blue-100">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-6">
             <Link to="/" className="hover:text-blue-600 transition-colors">Accueil</Link>
             <span>›</span>
             <Link to="/formations" className="hover:text-blue-600 transition-colors">Formations</Link>
@@ -156,18 +252,53 @@ export default function Preinscription() {
           </nav>
           
           <div className="text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-              <span className="text-2xl">📋</span>
+            {/* Logo */}
+            <div className="flex justify-center mb-6">
+              <img 
+                src="/assets/logo-cipfaro.png" 
+                alt="CIP FARO - Centre de formation" 
+                className="h-16 w-auto"
+              />
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              Questionnaire de préinscription
+            
+            {/* Hero Content */}
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full mb-6 shadow-lg">
+              <span className="text-3xl text-white">📋</span>
+            </div>
+            <h1 className="text-4xl font-bold text-gray-900 mb-3">
+              Préinscription à une formation
             </h1>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Complétez ce formulaire pour candidater à votre formation. 
-              Toutes les informations renseignées resteront confidentielles.
+            <p className="text-xl text-gray-700 max-w-2xl mx-auto mb-6">
+              Remplissez ce formulaire en <strong>5 minutes</strong>. 
+              Votre avenir professionnel commence ici.
+            </p>
+            
+            {/* Trust Badges */}
+            <div className="flex flex-wrap justify-center gap-4 mb-4">
+              <div className="flex items-center space-x-2 bg-white px-4 py-2 rounded-full shadow-sm border border-green-200">
+                <span className="text-green-600">🔒</span>
+                <span className="text-sm font-medium text-gray-700">Données sécurisées</span>
+              </div>
+              <div className="flex items-center space-x-2 bg-white px-4 py-2 rounded-full shadow-sm border border-blue-200">
+                <span className="text-blue-600">📧</span>
+                <span className="text-sm font-medium text-gray-700">Confirmation immédiate</span>
+              </div>
+              <div className="flex items-center space-x-2 bg-white px-4 py-2 rounded-full shadow-sm border border-purple-200">
+                <span className="text-purple-600">🖨️</span>
+                <span className="text-sm font-medium text-gray-700">Résumé téléchargeable</span>
+              </div>
+            </div>
+            
+            <p className="text-sm text-gray-500 italic">
+              Certifié Qualiopi • Plus de 1000 stagiaires formés
             </p>
           </div>
         </div>
+      </div>
+
+      {/* Accessibility Announcements */}
+      <div id="announcements" aria-live="polite" aria-atomic="true" className="sr-only">
+        {/* Les annonces dynamiques seront ajoutées ici */}
       </div>
 
       {/* Main Content */}
@@ -187,17 +318,86 @@ export default function Preinscription() {
           </div>
         )}
 
-        {/* Progress Bar */}
-        <div className="bg-white rounded-lg shadow-sm border p-4 mb-8">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-semibold text-gray-700">Progression du formulaire</span>
-            <span className="text-sm font-medium text-blue-600">{Math.round(calculateProgress())}% complété</span>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-3">
+        {/* Enhanced Progress Bar with Accessibility */}
+        <div className="bg-white rounded-lg shadow-lg border border-blue-100 p-6 mb-8 relative overflow-hidden" role="region" aria-labelledby="progress-title">
+          {/* Background Animation */}
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-indigo-50 opacity-50" />
+          
+          <div className="relative">
+            {/* Header with stats */}
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center" role="img" aria-label={`Progression: ${Math.round(progress)} pourcent`}>
+                  <span className="text-blue-600 text-sm font-bold">{Math.round(progress)}%</span>
+                </div>
+                <div>
+                  <span id="progress-title" className="text-sm font-semibold text-gray-800">Progression du formulaire</span>
+                  <div className="text-xs text-gray-500" aria-live="polite">
+                    {completedFields} sur {totalFields} sections complétées
+                  </div>
+                </div>
+              </div>
+              
+              <div className="text-right">
+                <div className="text-sm font-medium text-blue-600" aria-live="polite">
+                  {progress >= 100 ? '✅ Terminé !' : `${Math.round(progress)}% complété`}
+                </div>
+                <div className="text-xs text-gray-500" aria-live="polite">
+                  {timeRemaining > 0 ? `~${timeRemaining} min restantes` : 'Prêt à envoyer !'}
+                </div>
+              </div>
+            </div>
+
+            {/* Enhanced Progress Bar */}
             <div 
-              className="bg-gradient-to-r from-blue-500 to-indigo-600 h-3 rounded-full transition-all duration-500 ease-out"
-              style={{ width: `${calculateProgress()}%` }}
-            />
+              className="w-full bg-gray-200 rounded-full h-4 shadow-inner relative overflow-hidden"
+              role="progressbar"
+              aria-valuenow={Math.round(progress)}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-label={`Progression du formulaire: ${Math.round(progress)} pourcent complété`}
+            >
+              {/* Background shine effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-20 transform -skew-x-12 animate-pulse" />
+              
+              {/* Progress fill */}
+              <div 
+                className="bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 h-4 rounded-full transition-all duration-700 ease-out relative shadow-sm"
+                style={{ width: `${progress}%` }}
+              >
+                {/* Shine effect on progress bar */}
+                {progress > 0 && (
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-30 transform -skew-x-12 animate-pulse" />
+                )}
+              </div>
+              
+              {/* Progress steps indicators */}
+              <div className="absolute inset-0 flex justify-between items-center px-1">
+                {[20, 40, 60, 80].map(step => (
+                  <div 
+                    key={step}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      progress >= step 
+                        ? 'bg-white shadow-sm' 
+                        : 'bg-gray-400'
+                    }`}
+                    role="img"
+                    aria-label={`Étape ${step}% ${progress >= step ? 'complétée' : 'en attente'}`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Motivational message */}
+            <div className="mt-3 text-center">
+              <p className="text-sm text-gray-600">
+                {progress < 25 && "🚀 Excellent début ! Continuez comme ça."}
+                {progress >= 25 && progress < 50 && "💪 Très bien, vous êtes sur la bonne voie !"}
+                {progress >= 50 && progress < 75 && "⭐ Fantastique ! Plus que quelques informations."}
+                {progress >= 75 && progress < 100 && "🎯 Presque fini ! Vous y êtes presque."}
+                {progress >= 100 && "🎉 Parfait ! Votre dossier est complet."}
+              </p>
+            </div>
           </div>
         </div>
 
@@ -205,16 +405,22 @@ export default function Preinscription() {
         <form onSubmit={handleSubmit} className="space-y-8">
           
           {/* Section 1: Identité */}
-          <fieldset className="bg-white rounded-lg shadow-sm border">
-            <legend className="sr-only">Informations personnelles</legend>
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4 border-b rounded-t-lg">
+          <fieldset className="bg-white rounded-lg shadow-sm border hover:shadow-lg transition-all duration-300 group" role="group" aria-labelledby="section-identite">
+            <legend id="section-identite" className="text-lg font-semibold text-gray-900 px-6 py-2">Informations personnelles</legend>
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4 border-b rounded-t-lg group-hover:from-blue-100 group-hover:to-indigo-100 transition-all duration-300">
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <span className="text-lg">👤</span>
+                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-all duration-300 group-hover:scale-110" aria-hidden="true">
+                  <span className="text-2xl">👤</span>
                 </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Vos informations personnelles</h3>
-                  <p className="text-sm text-gray-600">Renseignez votre identité et vos coordonnées</p>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-gray-600">Renseignez votre identité et vos coordonnées</p>
+                    </div>
+                    <div className="text-2xl opacity-40 group-hover:opacity-70 transition-opacity duration-300" aria-hidden="true">
+                      🆔
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -243,26 +449,62 @@ export default function Preinscription() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Nom <span className="text-red-500">*</span>
                   </label>
-                  <input
-                    type="text"
-                    value={nom}
-                    onChange={(e) => setNom(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    required
-                  />
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={nom}
+                      onChange={(e) => handleFieldChange('nom', e.target.value, setNom)}
+                      onFocus={() => handleFieldFocus('nom')}
+                      onBlur={handleFieldBlur}
+                      className={`w-full px-3 py-2 border rounded-lg transition-all duration-200 ${
+                        focusedField === 'nom' 
+                          ? 'ring-2 ring-blue-500 border-blue-500 shadow-lg' 
+                          : fieldValidation.nom?.isValid === false 
+                            ? 'border-red-400 focus:ring-red-500'
+                            : fieldValidation.nom?.isValid === true
+                              ? 'border-green-400 focus:ring-green-500'
+                              : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
+                      } ${recentlyCompleted.includes('nom') ? 'bg-green-50' : ''}`}
+                      required
+                    />
+                    {recentlyCompleted.includes('nom') && (
+                      <div className="absolute right-2 top-2 text-green-500 animate-bounce">
+                        ✨
+                      </div>
+                    )}
+                  </div>
+                  <ValidationIndicator fieldName="nom" />
                 </div>
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Prénom <span className="text-red-500">*</span>
                   </label>
-                  <input
-                    type="text"
-                    value={prenom}
-                    onChange={(e) => setPrenom(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    required
-                  />
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={prenom}
+                      onChange={(e) => handleFieldChange('prenom', e.target.value, setPrenom)}
+                      onFocus={() => handleFieldFocus('prenom')}
+                      onBlur={handleFieldBlur}
+                      className={`w-full px-3 py-2 border rounded-lg transition-all duration-200 ${
+                        focusedField === 'prenom' 
+                          ? 'ring-2 ring-blue-500 border-blue-500 shadow-lg' 
+                          : fieldValidation.prenom?.isValid === false 
+                            ? 'border-red-400 focus:ring-red-500'
+                            : fieldValidation.prenom?.isValid === true
+                              ? 'border-green-400 focus:ring-green-500'
+                              : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
+                      } ${recentlyCompleted.includes('prenom') ? 'bg-green-50' : ''}`}
+                      required
+                    />
+                    {recentlyCompleted.includes('prenom') && (
+                      <div className="absolute right-2 top-2 text-green-500 animate-bounce">
+                        ✨
+                      </div>
+                    )}
+                  </div>
+                  <ValidationIndicator fieldName="prenom" />
                 </div>
               </div>
 
@@ -271,13 +513,28 @@ export default function Preinscription() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Date de naissance <span className="text-red-500">*</span>
                 </label>
-                <input
-                  type="date"
-                  value={dateNaissance}
-                  onChange={(e) => setDateNaissance(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  required
-                />
+                <div className="relative">
+                  <input
+                    type="date"
+                    value={dateNaissance}
+                    onChange={(e) => handleFieldChange('dateNaissance', e.target.value, setDateNaissance)}
+                    onFocus={() => handleFieldFocus('dateNaissance')}
+                    onBlur={handleFieldBlur}
+                    className={`w-full px-3 py-2 border rounded-lg transition-all duration-200 ${
+                      focusedField === 'dateNaissance' 
+                        ? 'ring-2 ring-blue-500 border-blue-500 shadow-lg' 
+                        : dateNaissance
+                          ? 'border-green-400 focus:ring-green-500'
+                          : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
+                    } ${recentlyCompleted.includes('dateNaissance') ? 'bg-green-50' : ''}`}
+                    required
+                  />
+                  {recentlyCompleted.includes('dateNaissance') && (
+                    <div className="absolute right-2 top-2 text-green-500 animate-bounce">
+                      ✨
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Adresse */}
@@ -329,41 +586,85 @@ export default function Preinscription() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Téléphone <span className="text-red-500">*</span>
                   </label>
-                  <input
-                    type="tel"
-                    value={telephone}
-                    onChange={(e) => setTelephone(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    required
-                  />
+                  <div className="relative">
+                    <input
+                      type="tel"
+                      value={telephone}
+                      onChange={(e) => handleFieldChange('telephone', e.target.value, setTelephone)}
+                      onFocus={() => handleFieldFocus('telephone')}
+                      onBlur={handleFieldBlur}
+                      className={`w-full px-3 py-2 border rounded-lg transition-all duration-200 ${
+                        focusedField === 'telephone' 
+                          ? 'ring-2 ring-blue-500 border-blue-500 shadow-lg' 
+                          : fieldValidation.telephone?.isValid === false 
+                            ? 'border-red-400 focus:ring-red-500'
+                            : fieldValidation.telephone?.isValid === true
+                              ? 'border-green-400 focus:ring-green-500'
+                              : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
+                      } ${recentlyCompleted.includes('telephone') ? 'bg-green-50' : ''}`}
+                      placeholder="06 12 34 56 78"
+                      required
+                    />
+                    {recentlyCompleted.includes('telephone') && (
+                      <div className="absolute right-2 top-2 text-green-500 animate-bounce">
+                        ✨
+                      </div>
+                    )}
+                  </div>
+                  <ValidationIndicator fieldName="telephone" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Email <span className="text-red-500">*</span>
                   </label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    required
-                  />
+                  <div className="relative">
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => handleFieldChange('email', e.target.value, setEmail)}
+                      onFocus={() => handleFieldFocus('email')}
+                      onBlur={handleFieldBlur}
+                      className={`w-full px-3 py-2 border rounded-lg transition-all duration-200 ${
+                        focusedField === 'email' 
+                          ? 'ring-2 ring-blue-500 border-blue-500 shadow-lg' 
+                          : fieldValidation.email?.isValid === false 
+                            ? 'border-red-400 focus:ring-red-500'
+                            : fieldValidation.email?.isValid === true
+                              ? 'border-green-400 focus:ring-green-500'
+                              : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
+                      } ${recentlyCompleted.includes('email') ? 'bg-green-50' : ''}`}
+                      placeholder="votre.email@exemple.com"
+                      required
+                    />
+                    {recentlyCompleted.includes('email') && (
+                      <div className="absolute right-2 top-2 text-green-500 animate-bounce">
+                        ✨
+                      </div>
+                    )}
+                  </div>
+                  <ValidationIndicator fieldName="email" />
                 </div>
               </div>
             </div>
           </fieldset>
 
           {/* Section 2: Situation professionnelle */}
-          <fieldset className="bg-white rounded-lg shadow-sm border">
-            <legend className="sr-only">Situation professionnelle</legend>
-            <div className="bg-gradient-to-r from-green-50 to-emerald-50 px-6 py-4 border-b rounded-t-lg">
+          <fieldset className="bg-white rounded-lg shadow-sm border hover:shadow-lg transition-all duration-300 group" role="group" aria-labelledby="section-profession">
+            <legend id="section-profession" className="text-lg font-semibold text-gray-900 px-6 py-2">Situation professionnelle</legend>
+            <div className="bg-gradient-to-r from-green-50 to-emerald-50 px-6 py-4 border-b rounded-t-lg group-hover:from-green-100 group-hover:to-emerald-100 transition-all duration-300">
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-                  <span className="text-lg">💼</span>
+                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center group-hover:bg-green-200 transition-all duration-300 group-hover:scale-110" aria-hidden="true">
+                  <span className="text-2xl">💼</span>
                 </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Votre situation professionnelle</h3>
-                  <p className="text-sm text-gray-600">Indiquez votre situation actuelle</p>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-gray-600">Indiquez votre situation actuelle</p>
+                    </div>
+                    <div className="text-2xl opacity-40 group-hover:opacity-70 transition-opacity duration-300" aria-hidden="true">
+                      📊
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -409,16 +710,23 @@ export default function Preinscription() {
           </fieldset>
 
           {/* Section 3: Motivation et expérience */}
-          <fieldset className="bg-white rounded-lg shadow-sm border">
+          <fieldset className="bg-white rounded-lg shadow-sm border hover:shadow-lg transition-all duration-300 group">
             <legend className="sr-only">Motivation et expérience</legend>
-            <div className="bg-gradient-to-r from-purple-50 to-pink-50 px-6 py-4 border-b rounded-t-lg">
+            <div className="bg-gradient-to-r from-purple-50 to-pink-50 px-6 py-4 border-b rounded-t-lg group-hover:from-purple-100 group-hover:to-pink-100 transition-all duration-300">
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
-                  <span className="text-lg">💡</span>
+                <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center group-hover:bg-purple-200 transition-all duration-300 group-hover:scale-110">
+                  <span className="text-2xl">💡</span>
                 </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Motivation et expérience</h3>
-                  <p className="text-sm text-gray-600">Parlez-nous de votre projet et de votre parcours</p>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900 group-hover:text-purple-800 transition-colors duration-300">Motivation et expérience</h3>
+                      <p className="text-sm text-gray-600">Parlez-nous de votre projet et de votre parcours</p>
+                    </div>
+                    <div className="text-2xl opacity-40 group-hover:opacity-70 transition-opacity duration-300">
+                      🎯
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -490,16 +798,23 @@ export default function Preinscription() {
           </fieldset>
 
           {/* Section 4: Besoins spécifiques */}
-          <fieldset className="bg-white rounded-lg shadow-sm border">
+          <fieldset className="bg-white rounded-lg shadow-sm border hover:shadow-lg transition-all duration-300 group">
             <legend className="sr-only">Besoins spécifiques</legend>
-            <div className="bg-gradient-to-r from-orange-50 to-amber-50 px-6 py-4 border-b rounded-t-lg">
+            <div className="bg-gradient-to-r from-orange-50 to-amber-50 px-6 py-4 border-b rounded-t-lg group-hover:from-orange-100 group-hover:to-amber-100 transition-all duration-300">
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
-                  <span className="text-lg">♿</span>
+                <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center group-hover:bg-orange-200 transition-all duration-300 group-hover:scale-110">
+                  <span className="text-2xl">♿</span>
                 </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Besoins spécifiques</h3>
-                  <p className="text-sm text-gray-600">Informations pour l'accessibilité et l'accompagnement</p>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900 group-hover:text-orange-800 transition-colors duration-300">Besoins spécifiques</h3>
+                      <p className="text-sm text-gray-600">Informations pour l'accessibilité et l'accompagnement</p>
+                    </div>
+                    <div className="text-2xl opacity-40 group-hover:opacity-70 transition-opacity duration-300">
+                      🤝
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -608,15 +923,55 @@ export default function Preinscription() {
           </fieldset>
 
           {/* Actions de soumission */}
-          <div className="bg-white rounded-lg shadow-sm border p-6">
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="bg-gradient-to-br from-white to-gray-50 rounded-lg shadow-lg border p-8">
+            {/* Statistiques de validation du formulaire */}
+            <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center space-x-2">
+                  <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                  <span className="text-blue-800 font-medium">Validation du dossier</span>
+                </div>
+                <div className="text-blue-700">
+                  {progress >= 100 ? '✅ Dossier complet' : `${Math.round(progress)}% complété`}
+                </div>
+              </div>
+              
+              {progress < 100 && (
+                <div className="mt-2 text-xs text-blue-600">
+                  ⚠️ Veuillez compléter toutes les sections obligatoires avant l'envoi
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <button
                 type="submit"
-                disabled={isSending}
-                className="flex items-center justify-center px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 shadow-md disabled:opacity-50"
+                disabled={isSending || progress < 100}
+                className={`group relative flex items-center justify-center px-10 py-4 font-bold rounded-xl transition-all duration-300 shadow-lg transform hover:scale-105 focus:outline-none focus:ring-4 ${
+                  progress >= 100 
+                    ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white hover:from-emerald-600 hover:to-teal-700 focus:ring-emerald-300' 
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                } ${isSending ? 'animate-pulse' : ''}`}
               >
-                <span className="mr-2">📨</span>
-                {isSending ? 'Envoi en cours...' : 'Envoyer ma candidature'}
+                <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 rounded-xl transition-opacity duration-300"></div>
+                
+                {isSending ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
+                    <span>Transmission en cours...</span>
+                  </>
+                ) : progress >= 100 ? (
+                  <>
+                    <span className="text-xl mr-3">�</span>
+                    <span>Finaliser ma candidature</span>
+                    <span className="ml-2 text-sm opacity-80">→</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-xl mr-3">📋</span>
+                    <span>Compléter le formulaire</span>
+                  </>
+                )}
               </button>
               
               <Link 
