@@ -33,6 +33,7 @@ const Dashboard = lazy(() => import('./pages/Dashboard.jsx'));
 const EspaceAdmin = lazy(() => import('./pages/EspaceAdmin.jsx'));
 const EspaceStagiaire = lazy(() => import('./pages/EspaceStagiaire.jsx'));
 const EspaceFormateur = lazy(() => import('./pages/EspaceFormateur.jsx'));
+const EspaceEtudiant = lazy(() => import('./pages/EspaceEtudiant.jsx'));
 const Moodle = lazy(() => import('./pages/Moodle.jsx'));
 const PageBlanche = lazy(() => import('./pages/PageBlanche.jsx'));
 const Post = lazy(() => import('./pages/Post.jsx'));
@@ -111,6 +112,7 @@ export default function App() {
             <Route path="/admin" element={<EspaceAdmin />} />
             <Route path="/stagiaire" element={<EspaceStagiaire />} />
             <Route path="/formateur" element={<EspaceFormateur />} />
+            <Route path="/etudiant" element={<EspaceEtudiant />} />
             <Route path="/moodle" element={<Moodle />} />
             <Route path="/sitemap" element={<Sitemap />} />
             <Route path="/dashboard" element={<Dashboard />} />
