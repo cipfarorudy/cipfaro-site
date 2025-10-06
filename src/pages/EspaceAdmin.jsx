@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { requireAuth, logout, hasPermission } from '../utils/auth'
+import { useNotifications, NotificationContainer } from '../utils/notifications.jsx'
 
 export default function EspaceAdmin() {
   const navigate = useNavigate()
@@ -12,6 +13,7 @@ export default function EspaceAdmin() {
   const [isLoading, setIsLoading] = useState(true)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [activeTab, setActiveTab] = useState('dashboard')
+  const notifications = useNotifications()
 
   // Vérification de l'authentification
   useEffect(() => {
@@ -99,8 +101,9 @@ export default function EspaceAdmin() {
       setCvList(mockCVs)
       setFilteredCVs(mockCVs)
       setIsLoading(false)
+      notifications.success('Interface administrateur chargée avec succès')
     }, 1000)
-  }, [])
+  }, [notifications])
 
   // Filtrage et recherche
   useEffect(() => {
@@ -148,8 +151,11 @@ export default function EspaceAdmin() {
   }
 
   const handleLogout = () => {
-    logout()
-    navigate('/')
+    notifications.success('Déconnexion réussie')
+    setTimeout(() => {
+      logout()
+      navigate('/')
+    }, 1000)
   }
 
   // Vérification de l'authentification avant affichage
@@ -529,6 +535,12 @@ export default function EspaceAdmin() {
           </div>
         </div>
       )}
+      
+      {/* Conteneur de notifications */}
+      <NotificationContainer 
+        notifications={notifications.notifications} 
+        onRemove={notifications.removeNotification} 
+      />
     </div>
   )
 }

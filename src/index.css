@@ -19,6 +19,22 @@ a {
 .progress-bar[data-width="0"] {
   width: 0%;
 }
+
+/* Animations pour les notifications */
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out;
+}
 .progress-bar[data-width="10"] {
   width: 10%;
 }
