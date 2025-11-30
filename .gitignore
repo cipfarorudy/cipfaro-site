@@ -35,3 +35,4 @@ reports/*.json
 
 # Cache folders
 .cache/
+.fake
